@@ -82,7 +82,7 @@ requirejs在加载的时候会检察data-main属性
     // main.js
     require.config({
       paths: {
-        test: '../demo3/test.js'
+        "test": '../demo3/test.js'
       }
     });
 ```
@@ -209,3 +209,111 @@ shim配置仅设置了代码的依赖关系,想要实际加载shim指定或涉�
 请仅使用其他"shim"模块作为shim脚本的依赖，或那些没有依赖关系，并且在调用define()之前定义了全局变量(如jQuery或lodash)的AMD库。
 否则，如果你使用了一个AMD模块作为一个shim配置模块的依赖，在build之后，AMD模块可能在shim托管代码执行之前都不会被执行，这会导致错误。
 终极的解决方案是将所有shim托管代码都升级为含有可选的AMD define()调用。
+
+[map]():对于给定的模块前缀,使用一个不同的模块ID来加载模块.
+该手段对于某些大型项目很重要:如有两类模块需要使用不同版本的"foo",但它们之间仍需要一定的协同.在那些基于上下文的多版本实现中很难做到这一点.而且,paths配置仅用于
+为模块ID设置root paths,而不是为了将一个模块ID映射到另一个
+
+map示例:
+```javascript
+require.config({
+  map: {
+    'some/newmodule': {
+      'foo': 'foo1.2'
+    },
+    'some/oldmodule': {
+      'foo/foo1.0'
+    }
+  }
+});
+# 如果各模块在磁盘上分布如下：
+  foo1.0.js
+  foo1.2.js
+  some/
+    newmodule.js
+    oldmodule.js
+```
+当"some/newmodule"调用了"require('foo')",它将获取到foo1.2.js文件;而当"some/oldmodule"调用"require('foo')"时它将获取到foo1.0.js
+
+该特性仅适用于那些调用了define()并将其注册为匿名模块的真正AMD模块脚本.并且,请在map配置中仅使用绝对模块ID,"../some/thing"之类的相对ID不能工作
+
+另外在map中支持"*",意思是"对于所有的模块加载,使用本map配置".如果还有更细化的map配置,会优先于"*"配置.示例:
+```javascript
+require.config({
+  map: {
+    "*": {
+      'foo': 'foo1.2'
+    },
+    'some/oldmodule': {
+      'foo': 'foo1.0'
+    }
+  }
+});
+# 意思是除了"some/oldmodule"外的所有模块,当要使用"foo"时,使用"foo1.2"来替代.对与'some/oldmodule'自己,则使用"foo1.0"
+```
+
+[config]():常常需要将配置信息传给一个模块,这些配置往往是application级别的信息,需要一个手段将它们向下传递给模块.在requireJS,基于requirejs.config()
+配置项来实现.要获取这些信息的模块可以加载特殊的依赖“module”，并调用module.config()。示例：
+```javascript
+requirejs.config({
+    config: {
+        'bar': {
+            size: 'large'
+        },
+        'baz': {
+            color: 'blue'
+        }
+    }
+});
+
+define(function (require, exports, module) {
+    var size = module.config().size;
+});
+
+define(['module'], function (module) {
+    var color = module.config().color;
+});
+```
+从CommonJS包(package)中加载模块。参见从包中加载模块。
+```javascript
+requirejs.config({
+    config: {
+        'pixie/index': {
+            apiKey: 'XJKDLNS'
+        }
+    },
+    packages: [
+        {
+            name: 'pixie',
+            main: 'index'
+        }
+    ]
+});
+```
+[packages]():从CommonJS包(package)中加载模块。参见从包中加载模块。
+
+[nodeIdCompat]():在放弃加载一个脚本之前等待的秒数。设为0禁用等待超时。默认为7秒。
+
+[waitSeconds]():命名一个加载上下文。这允许require.js在同一页面上加载模块的多个版本，如果每个顶层require调用都指定了一个唯一的上下文字符串。
+
+[context]指定要加载的一个依赖数组。当将require设置为一个config object在加载require.js之前使用时很有用。一旦require.js被定义，这些依赖就已加载。
+使用deps就像调用require([])，但它在loader处理配置完毕之后就立即生效。它并不阻塞其他的require()调用，它仅是指定某些模块作为config块的一部分而异步加载的手段而已。
+
+[deps]():指定要加载的一个依赖数组。当将require设置为一个config object在加载require.js之前使用时很有用。一旦require.js被定义，这些依赖就已加载。
+使用deps就像调用require([])，但它在loader处理配置完毕之后就立即生效。它并不阻塞其他的require()调用，它仅是指定某些模块作为config块的一部分而异步加载的手段而已。
+
+[callback]():在deps加载完毕后执行的函数。当将require设置为一个config object在加载require.js之前使用时很有用，其作为配置的deps数组加载完毕后为require指定的函数。
+
+[enforceDefine]():如果设置为true，则当一个脚本不是通过define()定义且不具备可供检查的shim导出字串值时，就会抛出错误。参考在IE中捕获加载错误一节。
+
+[xhtml]():如果设置为true，则使用document.createElementNS()去创建script元素。
+
+[urlArgs]:requireJS获取资源时附加在URL后面的额外的query参数。作为浏览器或服务器未正确配置时的“cache bust”手段很有用。使用cache bust配置的一个示例：
+```javascript
+urlArgs: "bust=" +  (new Date()).getTime()
+# 在开发中这很有用，但请记得在部署到生成环境之前移除它。
+```
+
+[scriptType]():指定requireJS将script标签插入document时所用的type=""值。默认为“text/javascript”。想要启用Firefox的JavaScript 1.8特性，可使用值“text/javascript;version=1.8”。
+
+[skipDataMain]():
