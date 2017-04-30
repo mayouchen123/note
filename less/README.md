@@ -166,3 +166,23 @@ content: "I am fnord.";
   three: 3;
 }
 ```
+
+## [Extend]()
+```css
+nav ul {
+  &:extend(.inline);
+  background: blue;
+}
+.inline {
+  color: red;
+}
+
+// 编译后
+nav ul {
+  background: blue;
+}
+.inline,
+nav ul {
+  color: red;
+}
+```
