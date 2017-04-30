@@ -2,6 +2,7 @@
 > Less 是一门 CSS 预处理语言，它扩充了 CSS 语言，增加了诸如变量、混合（mixin）、函数等功能，让 CSS 更易维护、方便制作主题、扩充。
 
 # 环境需求
+
 ## 服务端
 运行在服务端需要node环境,通过npm全局安装
 ```bash
@@ -43,7 +44,7 @@ lessc styles.less > styles.css
 
 # 基本语法
 
-## [Variables](./src/variables.html)
+## [Variables](./variables/variables.html)
 ```css
 a,
 .link {
@@ -53,6 +54,7 @@ a,
   color: #fff;
   background: #428bca;
 }
+
 // 使用变量后的写法
 // Variables
 @link-color:        #428bca; // sea blue
@@ -69,5 +71,98 @@ a:hover {
 .widget {
   color: #fff;
   background: @link-color;
+}
+```
+
+### Variable Interpolation
+可以给变量赋值,然后通过@{变量名}引用
+```css
+// Variables
+@my-selector: banner;
+
+// Usage
+.@{my-selector} {
+  font-weight: bold;
+  line-height: 40px;
+  margin: 0 auto;
+}
+
+// 编译后
+.banner {
+  font-weight: bold;
+  line-height: 40px;
+  margin: 0 auto;
+}
+
+// 比如还可以带到url
+// Variables
+@images: "../img";
+
+// Usage
+body {
+  color: #444;
+  background: url("@{images}/white-sand.png");
+}
+
+// 像这样定义路径也是可以的
+// Variables
+@themes: "../../src/themes";
+
+// Usage
+@import "@{themes}/tidal-wave.less";
+```
+
+### Variable Names
+```css
+@fnord:  "I am fnord.";
+@var:    "fnord";
+content: @@var;
+
+// 编译后
+content: "I am fnord.";
+```
+
+### [Lazy Evaluation](./variables/lazy.html)
+变量是惰性加载的,在使用前不必声明
+```css
+.lazy-eval {
+  width: @var;
+}
+
+@var: @a;
+@a: 9%;
+
+// 也可以这样
+.lazy-eval-scope {
+  width: @var;
+  @a: 9%;
+}
+
+@var: @a;
+@a: 100%;
+
+// 编译后
+.lazy-eval-scope {
+  width: 9%;
+}
+
+// 下面这个会跟复杂
+@var: 0;
+.class {
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+
+// 编译后
+.class {
+  one: 1;
+}
+.class .brass {
+  three: 3;
 }
 ```
