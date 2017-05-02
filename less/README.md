@@ -185,4 +185,53 @@ nav ul {
 nav ul {
   color: red;
 }
+
+// 还可以使用all 关键字,使用all关键字会继承.d类的所有伪类
+.c:extend(.d all) {
+  // extends all instances of ".d" e.g. ".x.d" or ".d.x"
+}
+
+// 比如像下面这样
+.extend {
+  &:extend(.extend1);
+  font-size: blod;
+}
+
+.extend1 {
+  color: @color-red;
+}
+
+.extend:extend(.extend2 all) {}
+.extend2 {
+  color: @color-pink;
+}
+.extend2:hover {
+  color: @color-green;
+}
+@color-red: red;
+@color-pink: pink;
+@color-green: green;
+
+// 编译后
+.extend {
+  font-size: blod;
+}
+.extend1,
+.extend {
+  color: red;
+}
+.extend2,
+.extend {
+  color: pink;
+}
+.extend2:hover,
+.extend:hover {
+  color: green;
+}
 ```
+
+### [Extend Attached to Selector]()
++ Extend after the selector: `pre:hover:extend(div pre)`
++ Space between selector and extend is allowed: `pre:hover :extend(div pre)`
++ Multiple extends are allowed: `pre:hover:extend(div pre):extend(.bucket tr)` - Note this is the same as `pre:hover:extend(div pre, .bucket tr)`
++ This is NOT allowed: `pre:hover:extend(div pre).nth-child(odd).` Extend must be last

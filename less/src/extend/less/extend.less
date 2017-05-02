@@ -1,11 +1,21 @@
 @charset "UTF-8";
 
 .extend {
-  & .extend1 span{
-    color: @color-red
-  }
+  &:extend(.extend1);
+  font-size: blod;
 }
 
+.extend1 {
+  color: @color-red;
+}
+
+.extend:extend(.extend2 all) {}
+.extend2 {
+  color: @color-pink;
+}
+.extend2:hover {
+  color: @color-green;
+}
 @color-red: red;
 @color-pink: pink;
 @color-green: green;

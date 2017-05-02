@@ -1,4 +1,16 @@
 @charset "UTF-8";
-.extend .extend1 span {
+.extend {
+  font-size: blod;
+}
+.extend1,
+.extend {
   color: red;
+}
+.extend2,
+.extend {
+  color: pink;
+}
+.extend2:hover,
+.extend:hover {
+  color: green;
 }
