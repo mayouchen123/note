@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  border: 1px solid pink;
+  background-color: green;
+}

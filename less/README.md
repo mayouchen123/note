@@ -235,3 +235,48 @@ nav ul {
 + Space between selector and extend is allowed: `pre:hover :extend(div pre)`
 + Multiple extends are allowed: `pre:hover:extend(div pre):extend(.bucket tr)` - Note this is the same as `pre:hover:extend(div pre, .bucket tr)`
 + This is NOT allowed: `pre:hover:extend(div pre).nth-child(odd).` Extend must be last
+
+
+## 混合 [Mixins]()
+```css
+// 比如像这样
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  .border-pink();
+}
+
+// 编译后
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  border: 1px solid pink;
+}
+```
+
+### 不输出混合[Not Outputting the Mixin]()
+```css
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  .border-pink();
+  .bg-color;
+}
+
+.bg-color() {
+  background-color: green;
+}
+
+// 编译后
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  border: 1px solid pink;
+  background-color: green;
+}
+// 没有输出混合bg-color
+```

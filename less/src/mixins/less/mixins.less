@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+// 这就是混合
+.border-pink {
+  border: 1px solid pink;
+}
+.box {
+  .border-pink();
+  .bg-color;
+}
+
+.bg-color() {
+  background-color: green;
+}
