@@ -25,4 +25,5 @@ knockoutJs是一个纯javascript MVVM库
 <script type='text/javascript' src='knockout-3.4.2.js'></script>
 ```
 
+# 核心点
 + [Observables](./observables.md)

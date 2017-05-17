@@ -50,7 +50,8 @@ var myViewModel = {
 由于不是所有浏览器都支持javascript getters 和 setters,比如像IE8及以下的浏览器就不支持,所以ko.observable是一个函数,来支持老的浏览器
 
 读: myViewModel.personName() 返回Bob, myViewModel.personAge() 返回123
-写: myViewModel.personName("peter"), myViewModel.personAge(11)
+
+写: myViewModel.personName("peter"), myViewModel.personAge(11) <br/>
 通过链接语法写入多个: myViewModel.personName('Mary').personAge(50)
 
 
