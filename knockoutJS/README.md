@@ -27,3 +27,4 @@ knockoutJs是一个纯javascript MVVM库
 
 # 核心点
 + [Observables](./observables.md)
++ [Computed Observables](./Computed%20Observables.md)

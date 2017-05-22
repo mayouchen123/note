@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Decomposing user input</title>
+</head>
+<body>
+    <div>FistName: <span data-bind="text: firstName"></span></div>
+    <div>LastName: <span data-bind="text: lastName"></span></div>
+    <div class="heading">Hello, <input type="text" data-bind="textInput: fullName"></div>
+
+    <script src="../knockoutjs/knockout-3.4.2.debug.js"></script>
+    <script>
+        function MyViewModel() {
+            this.firstName = ko.observable("peter");
+            this.lastName = ko.observable("xu");
+
+            this.fullName = ko.pureComputed({
+                read: function () {
+                    return this.firstName() + " " + this.lastName();
+                },
+                write: function (value) {
+                    var lastSpacePos = value.lastIndexOf(" ");
+                    if (lastSpacePos > 0) {
+                        this.firstName(value.substring(0, lastSpacePos));
+                        this.lastName(value.substring(lastSpacePos + 1));
+                    }
+                },
+                owner: this
+            })
+        }
+        ko.applyBindings(new MyViewModel());
+    </script>
+</body>
+</html>
