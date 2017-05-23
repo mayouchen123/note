@@ -36,6 +36,9 @@ The name is <span data-bind="text: personName"></span>
 ko.applyBindings(myViewModel);
 ```
 
+> 这里ko.applyBindings()还有第二部参数`ko.applyBindings(myViewModel, document.getElementById('someElementId') )`,指定把view model绑定在某个HTML区域上, <br/>
+如果要把一个view model 绑定在不同的区域这将很有效
+
 ## 下面看看当视图模型更新是如何刷新UI的
 1.同样创建一个视图模型
 ```javascript
@@ -81,7 +84,7 @@ alert('The first element is ' + myObservableArray()[0]);
 ```
 
 Technically you can use any of the native JavaScript array functions to operate on that underlying array, but normally there’s a better alternative. KO’s observableArray has equivalent functions of its own, and they’re more useful because: <br/>
-(从技术上讲，您可以使用任何本机JavaScript数组函数对该底层数组进行操作，但通常情况下还有一个更好的选择。 KO的observableArray具有自己的等效功能，它们更有用，因为)<br/> 
+(从技术上讲，您可以使用任何本机JavaScript数组函数对该底层数组进行操作，但通常情况下还有一个更好的选择。 KO的observableArray具有自己的等效功能，它们更有用，因为)<br/>
 
 They work on all targeted browsers. (For example, the native JavaScript indexOf function doesn’t work on IE 8 or earlier, but KO’s indexOf works everywhere.) <br/>
 (他们在所有目标浏览器上工作。 （例如，本机JavaScript indexOf函数在IE 8或更早版本上不起作用，但KO的indexOf无处不在。）) <br/>
@@ -114,7 +117,7 @@ observableArray扩展了一些javascript arrays方法
 + removeAll( ['Chad', 132, undefined] ) — Removes all values that equal 'Chad', 123, or undefined and returns them as an array.
 + removeAll() — Removes all values and returns them as an array.
 
-## destroy and destroyAll 
+## destroy and destroyAll
 + destroy( someItem ) — Finds any objects in the array that equal someItem and gives them a special property called _destroy with value true.
 + destroy( function (someItem) { return someItem.age < 18; } ) — Finds any objects in the array whose age property is less than 18, and gives those objects a special property called _destroy with value true.
 + destroyAll( ['Chad', 132, undefined] ) — Finds any objects in the array that equal 'Chad', 123, or undefined and gives them a special property called _destroy with value true.
