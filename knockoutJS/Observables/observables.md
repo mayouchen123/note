@@ -16,7 +16,8 @@ Model-View-View Model (MVVM) is a design pattern for building user interfaces. I
 
 > 当使用KO时，你的视图仅仅是带有声明绑定的HTML文档，将其链接到视图模型。或者，可以使用视图模型中的数据生成HTML的模板。
 
-## [example](./src/demo1/index.html)
+[example](./src/demo1/index.html)
+
 1.创建一个视图模型,只需声明任何javascript对象
 ```javascript
 var myViewModel = {
@@ -40,6 +41,8 @@ ko.applyBindings(myViewModel);
 如果要把一个view model 绑定在不同的区域这将很有效
 
 ## 下面看看当视图模型更新是如何刷新UI的
+[example](./src/demo2/index.html)
+
 1.同样创建一个视图模型
 ```javascript
 var myViewModel = {
@@ -57,17 +60,30 @@ var myViewModel = {
 写: myViewModel.personName("peter"), myViewModel.personAge(11) <br/>
 通过链接语法写入多个: myViewModel.personName('Mary').personAge(50)
 
+## 还可以设置数据变化后的自定义通知
 
-# Observable Arrays
+[example](./src/demo3/index.html)
+```javascript
+var myViewModel = {
+    personName: ko.observable("peter"),
+    personAge: ko.observable(10)
+};
+myViewModel.personName.subscribe(function(newValue) {
+   alert("The person's new name is " + newValue);
+})
+ko.applyBindings(myViewModel);
+```
+
+## Observable Arrays
 observableArray只跟踪它所拥有的对象,并在添加或删除对象时通知侦听器
 
-## [example]()
+[example](./src/writable_computed_observables/demo2.html)
 ```javascript
 var myObservableArray = ko.observableArray();    // Initially an empty array
 myObservableArray.push('Some value');            // Adds the value and notifies observers
 ```
 
-## Prepopulating an observableArray
+### Prepopulating an observableArray
 ```javascript
 // This observable array initially contains three objects
 var anotherObservableArray = ko.observableArray([
@@ -77,7 +93,7 @@ var anotherObservableArray = ko.observableArray([
 ]);
 ```
 
-## Reading information from an observableArray
+### Reading information from an observableArray
 ```javascript
 alert('The length of the array is ' + myObservableArray().length);
 alert('The first element is ' + myObservableArray()[0]);
@@ -93,12 +109,12 @@ For functions that modify the contents of the array, such as push and splice, KO
 对于修改数组内容的功能（如推送和拼接），KO的方法会自动触发依赖关系跟踪机制，以便所有已注册的收听者被通知该更改，并且您的UI会自动更新。 <br/>
 (语法更方便。 要调用KO的push方法，只需编写myObservableArray.push（...）。 这比通过编写myObservableArray（）。push（...）调用底层数组的push方法稍微好一些。) <br/>
 
-## 关于observableArray的一些操作
+### 关于observableArray的一些操作
 `indexOf` : myObservableArray.indexOf('Blah') 如果没找到返回-1
 
 `slice`: **myObservableArray.slice(...) 这里有个不区分myObservableArray不加()是调用observable的slice方法, myObservableArray().slice(...) 这里 myObservableArray()调用的是javascript 数组本身的slice API**
 
-## Manipulating an observableArray
+### Manipulating an observableArray
 下面的这些操作都等同于javascript数组 API,然后通知侦听器有关更改
 + push( value ) — Adds a new item to the end of array.
 + pop() — Removes the last value from the array and returns it.
@@ -109,7 +125,7 @@ For functions that modify the contents of the array, such as push and splice, KO
   + The default sort is alphabetical, but you can optionally pass a function to control how the array should be sorted. Your function should accept any two objects from the array and return a negative value if the first argument is smaller, a positive value is the second is smaller, or zero to treat them as equal. For example, to sort an array of ‘person’ objects by last name, you could write myObservableArray.sort(function (left, right) { return left.lastName == right.lastName ? 0 : (left.lastName < right.lastName ? -1 : 1) })
 + splice() — Removes and returns a given number of elements starting from a given index. For example, myObservableArray.splice(1, 3) removes three elements starting from index position 1 (i.e., the 2nd, 3rd, and 4th elements) and returns them as an array.
 
-## remove and removeAll
+### remove and removeAll
 observableArray扩展了一些javascript arrays方法
 
 + remove( someItem ) — Removes all values that equal someItem and returns them as an array.
@@ -117,7 +133,7 @@ observableArray扩展了一些javascript arrays方法
 + removeAll( ['Chad', 132, undefined] ) — Removes all values that equal 'Chad', 123, or undefined and returns them as an array.
 + removeAll() — Removes all values and returns them as an array.
 
-## destroy and destroyAll
+### destroy and destroyAll
 + destroy( someItem ) — Finds any objects in the array that equal someItem and gives them a special property called _destroy with value true.
 + destroy( function (someItem) { return someItem.age < 18; } ) — Finds any objects in the array whose age property is less than 18, and gives those objects a special property called _destroy with value true.
 + destroyAll( ['Chad', 132, undefined] ) — Finds any objects in the array that equal 'Chad', 123, or undefined and gives them a special property called _destroy with value true.

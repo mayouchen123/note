@@ -14,7 +14,8 @@ function AppViewModel() {
 you could add a computed observable to return the full name:
 ```javascript
 function AppViewModel() {
-    // ... leave firstName and lastName unchanged ...
+    this.firstName = ko.observable('Bob');
+    this.lastName = ko.observable('Smith');
 
     this.fullName = ko.computed(function() {
         return this.firstName() + " " + this.lastName();
@@ -82,8 +83,8 @@ for (var prop in myObject) {
 ```
 
 Additionally, Knockout provides similar functions that can operate on observables and computed observables:
-+ ko.isObservable - returns true for observables, observable arrays, and all computed observables.
-+ ko.isWritableObservable - returns true for observables, observable arrays, and writable computed observables (also aliased as ko.isWriteableObservable).
++ `ko.isObservable` - returns true for observables, observable arrays, and all computed observables.
++ `ko.isWritableObservable` - returns true for observables, observable arrays, and writable computed observables (also aliased as ko.isWriteableObservable).
 
 
 ## Writable computed observables
@@ -93,7 +94,7 @@ Normally, computed observables have a value that is computed from other observab
 You can use a writable computed observable exactly like a regular observable, with your own custom logic intercepting all reads and writes. Just like observables, you can write values to multiple observable or computed observable properties on a model object using chaining syntax. For example, myViewModel.fullName('Joe Smith').age(50).<br/>
 您可以使用一个可写的计算的可观察性，就像一个常规的可观察的，你自己的自定义逻辑拦截所有的读和写。 就像可观察的一样，您可以使用链接语法将值写入模型对象上的多个可观察或计算的可观察属性。 例如，myViewModel.fullName（'Joe Smith'）。age（50）。
 
-### Example 1: Decomposing user input
+### [Example](./src/writable_computed_observables/demo1.html) 1: Decomposing user input
 Going back to the classic “first name + last name = full name” example, you can turn things back-to-front: make the fullName computed observable writable, so that the user can directly edit the full name, and their supplied value will be parsed and mapped back to the underlying firstName and lastName observables. In this example, the write callback handles incoming values by splitting the incoming text into “firstName” and “lastName” components, and writing those values back to the underlying observables. <br/>
 回到经典的“名字+姓氏=全名”的例子，你可以把事情做到背后：使得fullName计算可观察可写，以便用户可以直接编辑全名，而它们提供的值将 被解析并映射回潜在的firstName和lastName可观察值。 在这个例子中，写回调通过将传入的文本分成“firstName”和“lastName”组件来处理传入的值，并将这些值写回底层的可观察值。
 

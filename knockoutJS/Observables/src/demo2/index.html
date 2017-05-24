@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    The name is <div data-bind="text: personName"></div>
+    The age is <div data-bind="text: personAge"></div>
+    <script src="../../../src/knockoutjs/knockout-3.4.2.debug.js"></script>
+    <script>
+        var myViewModel = {
+            personName: ko.observable("peter"),
+            personAge: ko.observable(10)
+        };
+        ko.applyBindings(myViewModel);
+    </script>
+</body>
+</html>
