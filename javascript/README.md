@@ -1,1 +1,1 @@
-# 整理ES5和ES6基础笔记
+# ES5 AND ES6 Note
