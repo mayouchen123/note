@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>flex-direction</title>
+  <style>
+    .container {
+      width: 100%;
+      height: auto;
+      background: #abcdef;
+
+      display: flex; /* 先把container变为flex container */
+      flex-direction: row; /* 默认值 主轴水平从左往右 flex item 从左往右排列 */
+      flex-direction: row-reverse; /* 主轴水平从右往左 flex item 从右往左排列 */
+      flex-direction: column; /* 主轴垂直从上往下 flex item 从上往下排列*/
+      flex-direction: column-reverse; /* 主轴垂直从下往上 flex item 从下往上排列*/
+    }
+    .box1,.box2,.box3 {
+      width: 100px;
+      height: 100px;
+    }
+    .box1 {
+      background-color: red;
+    }
+    .box2 {
+      background-color: yellow;
+    }
+    .box3 {
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box1">box 1</div>
+    <div class="box2">box 2</div>
+    <div class="box3">box 3</div>
+  </div>
+</body>
+</html>
