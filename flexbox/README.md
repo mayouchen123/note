@@ -43,7 +43,7 @@ Flex是Flexible Box的缩写,是弹性布局的意思,用来为盒模型提供�
 + [flex-wrap](#flex-wrap)
 + flex-flow
 + [justify-content](#justify-content)
-+ align-items
++ [align-items](align-items)
 + align-content
 
 <a name="flex-direction"></a>
@@ -86,3 +86,116 @@ justify-content属性定义了flex itemt根据主轴方向的对齐方式
 ![justify-content](./images/justify-content.png)
 
 [案例](./src/justify-content/index.html)
+
+<a name="align-items"></a>
+### align-items
+align-items属性定义flex item在交叉轴上如何对齐
++ flex-start: 垂直的交叉轴的起点对齐
++ flex-end: 垂直的交叉轴的终点对齐
++ center: 垂直的交叉轴的中点对齐
++ baseline: flex item的第一行文字的基线对齐
++ stretch: 默认值,如果flex item未设置高度或auto,将占满整个容器的高度
+
+![align-items](./images/align-items.png)
+
+[案例](./src/align-items/index.html)
+
+
+## flex item
+flex item相关属性有以下6个
++ [order](#order)
++ [flex-grow](#flex-grow)
++ [flex-shrink](#flex-shrink)
++ [flex-basis](#flex-basis)
++ [flex](#flex)
++ [align-self](#align-self)
+
+<a name="order"></a>
+### order
+order属性定义项目的排序顺序.数值越小,排列越靠前
+> 注意:order默认为0,可以为负数
+```css
+.item{
+    order:<integer>
+}
+```
+
+![order](./images/order.png)
+
+[案例](./src/order)
+
+<a name="flex-grow"></a>
+### flex-grow
+flex-grow属性定义flex item的放大比例,默认为0,就是如果存在剩余空间,也不放大
+
+如果所有的flex item属性都为1,则将等分剩余的空间,如果一个flex item的属性为2,其它flex item
+都为1,则为2的占据剩余空间比为1的大一倍
+
+```css
+.item{
+    flex-grow:<number>;
+}
+```
+
+![flex-grow](./images/flex-grow.png)
+
+[案例](./src/flex-grow/index.html)
+
+<a name="flex-shrink"></a>
+### flex-shrink
+flex-shrink属性定了flex item的缩小比例,默认为1,即如果空间不足,该flex item将缩小
+
+如果所有的flex item的flex-shrink属性都为1,当空间不足的时候,都将等比例缩小.如果一个flex item属性为0,
+其他项目都为1,则空间不足时,前者不缩小
+
+> 注意: flex-shrink不能为负
+
+```css
+.item{
+    flex-shrink:<number>;
+}
+```
+![flex-shrink](./images/flex-shrink.png)
+
+[案例](./src/flex-shrink/index.html)
+
+<a name="flex-basis"></a>
+### flex-basis
+flex-basis属性定义了在分配偶遇空间之前,flex item占据的主轴空间(main size).
+浏览器根据这个属性,计算主轴是否有多余空间,它的默认值为auto,即项目的本来大小
+
+它可以设为跟width或height属性一样的值(像300px),则项目将占据固定空间
+
+```css
+.item{
+    flex-basis:<length>| auto;
+}
+```
+
+[案例](./src/flex-basis/index.html)
+
+<a name="flex"></a>
+### flex
+flex属性是flex-grow、flex-shrink、flex-basis的缩写，默认值为0 1 auto
+
+```css
+.item{
+    flex:none|[<'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+}
+```
+
+这个属性有两个快捷键值：auto (1 1 auto) 和 none(0 0 auto)
+
+<a name="align-self"></a>
+### align-self
+align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承元素的align-items属性，如果没有父元素，则等同于stretch。
+
+该属性可能取6个值，除了auto，其他都与align-items属性完全一致。
+
+```css
+.item{
+    align-self:auto | flex-start | flex-end | center | baseline | stretch;
+}
+```
+
+![align-self](./images/align-self.png)

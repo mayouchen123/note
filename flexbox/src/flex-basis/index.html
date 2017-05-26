@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>flex-basis</title>
+  <style>
+    .container {
+      width: 100%;
+      height: auto;
+      background: #abcdef;
+
+      display: flex;
+    }
+    .box1, .box2, .box3 {
+      width: 100px;
+      height: 100px;
+    }
+    .box1 {
+      background: pink;
+      flex-basis: 100px;
+      flex-grow: 1;
+    }
+    .box2 {
+      background: yellow;
+      flex-basis: 100px;
+      flex-grow: 2;
+    }
+    .box3 {
+      background: red;
+      flex-basis: 100px;
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box1">box 1</div>
+    <div class="box2">box 2</div>
+    <div class="box3">box 3</div>
+  </div>
+</body>
+</html>
