@@ -12,9 +12,9 @@ Magento的前端有丰富的组件利于扩展
 ```bash
 php bin/magento deploy:mode:set developer
 ```
+> 关于magento的应用模式设置可以参考:[设置magento2应用模式](https://pointline.github.io/2017/04/16/设置magento2应用模式/),[关于magento2的几种应用模式](https://pointline.github.io/2017/04/16/关于magento2的几个应用模式/)
 
 2.创建theme目录
-
 创建/app/design/frontend/<Vendor>/theme
 
 比如:/app/design/frontend/Pointline/blank
@@ -69,7 +69,7 @@ content->design->configuration
 
 | Attribute | Type | Description |
 | :-------- | :--- | :---------- |
-| `id` | string | Image identifier. Unique in the scope of theme. |
+| `id` | string | Image identifier. Unique in the scope of theme. Can have any value, but in out-of-the- box Magento themes id's are meaningful and describe the location of an image. For example, the id value for images of cross-sell products displayed in a shopping cart is cart_cross_sell_products. id's are used in .phtml templates for defining the type and properties of images displayed in each particular location on a particular page.|
 | `type` | string | 相当于图像的大小类型控制,type类型还可以选择thumbnail,small_image,image |
 
 ```xml
@@ -88,11 +88,42 @@ content->design->configuration
 php <magento install dir>/bin/magento catalog:images:resize
 ```
 
+## uninstall themes
+```bash
+magento theme:uninstall [--backup-code] [-c|--clear-static-content] {theme path} ... {theme path}
+```
+
+## Magento theme structure
+magento主题目录的结构通常如下
+```txt
+<theme_dir>/
+├── <Vendor>_<Module>/
+│	├── web/
+│	│	├── css/
+│	│	│	├── source/
+│	├── layout/
+│	│	├── override/
+│	├── templates/
+├── etc/
+├── i18n/
+├── media/
+├── web/
+│	├── css/
+│	│	├── source/
+│	├── fonts/
+│	├── images/
+│	├── js/
+├── composer.json
+├── registration.php
+├── theme.xml
+```
+
 
 # [Layout]()
 ## Layout handle
 
-A layout handle is a uniquely identified set of layout instructions that serves as a name of a layout file.
+A layout handle is a uniquely identified set of layout instructions that serves as a name of a layout file.<br/>
+布局句柄是唯一标识的布局指令集，用作布局文件的名称。
 
 There are three kinds of layout handles:
 
@@ -107,7 +138,7 @@ Use layout instructions to:
 + remove a page element
 
 ## 常见的布局说明
-+ [block]()
++ [block](#block)
 + [container]()
 + [before and after attributes]()
 + [action]()
@@ -118,7 +149,9 @@ Use layout instructions to:
 + [argument]()
 + [arguments]()
 
+<a name="block"></a>
 ### block
+一个phtml页面对应一个block
 | Attribute | Description | Values | Required? |
 | :-------- | :---------- | ------ | --------- |
 | class | class	Name of a class that implements rendering of a particular block. An object of this class is responsible for actual rendering of block output. | class name | yes |
@@ -287,4 +320,3 @@ arguments是argument必须的容器,没有自己的属性
 </arguments>
 ...
 ```
-
