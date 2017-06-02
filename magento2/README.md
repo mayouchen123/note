@@ -152,6 +152,7 @@ Use layout instructions to:
 <a name="block"></a>
 ### block
 一个phtml页面对应一个block
+
 | Attribute | Description | Values | Required? |
 | :-------- | :---------- | ------ | --------- |
 | class | class	Name of a class that implements rendering of a particular block. An object of this class is responsible for actual rendering of block output. | class name | yes |
