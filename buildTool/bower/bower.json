@@ -1,0 +1,22 @@
+{
+  "name": "test-bower",
+  "homepage": "https://github.com/pointline/note",
+  "authors": [
+    "peter <peter@xulukun.cn>"
+  ],
+  "description": "test bower",
+  "main": "",
+  "keywords": [
+    "test",
+    "bower"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
