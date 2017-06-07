@@ -1,6 +1,13 @@
 # 语句
 
 ## function
+函数在定义时不必指定是否返回值(return),但如果在函数中没有return而将一个函数赋给一个变量此时会返回undefined
+
+严格模式对函数有一些限制:
++ 不能把函数命名为eval或arguments;
++ 不能把参数命名为eval或arguments;
++ 不能出现两个命名参数同名的情况
+
 ### 函数声明语句
 ```javascript
 function funcname([arg1 [, arg2 [..., argn]]]) {

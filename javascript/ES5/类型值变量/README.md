@@ -10,16 +10,15 @@
 | decodeURI | EvalError | Math | RangeError | undefined |
 | decodeURIComponent | Function | NaN | ReferenceError | URIError |
 
-javascript的数据类型分为两类:原始类型和引用类型.javascript中有两个特殊的原始值:null(空)和undefined(未定义).
-+ 原始类型
+javascript的数据类型分为两类:基本类型和引用类型.javascript中有两个特殊的原始值:null(空)和undefined(未定义).
++ 基本类型
   + Number
   + String
   + Boolean
   + null
   + undefined
 
-javascript中除了Number,String,Boolean,null,undefined之外的都是对象
-
+> javascript中除了Number,String,Boolean,null,undefined之外的都是对象 <br/>
 javascript还定义了另一种特殊对象--函数
 
 javascript解释器有自己的内存管理机制,可以自动对内存进行垃圾回收.这意味着程序可以按需创建对象,不必担心这些对象和内存回收,当不再有任何
@@ -55,6 +54,24 @@ y == .1 // true .2 - .1 等于 .1
 ```
 在使用任何二进制浮点数的编程语言中都会有这个问题,这种计算结果可以胜任大多数的计算任务,只是在比较两个值是否相等的时候才会出现
 
+### NaN
+NaN,即非数值(Not a Number)是一个特殊的值,任何涉及与NaN的操作,结果都会返回NaN
+
+其次,NaN与任何值都不相等,包括NaN本身,例如:
+
+```javascript
+NaN == NaN // false
+NaN === NaN // false
+```
+
+### 数值转换
+有3个函数可以把非数值转换为数值:Number(),parseInt(),parseFloat()
+
+Number():可以用于转任何数据类型
+
+parseInt()和parseFloat():专门用于把字符串转换成数值
+
+
 ## 文本
 字符串是一组由16位值组成的不可变的有序序列,每个字符通常来自于Unicode字符集
 
@@ -65,7 +82,7 @@ y == .1 // true .2 - .1 等于 .1
 + null
   + null是javascript语言的关键字,它表示一个特殊值"空值"
   + 对null执行typeof运算,返回"Object"
-  + 逻辑上null表示一个空对象的指针
+  + 逻辑上null表示一个空对象的引用
 + undefined
   + 它是变量的取值.表明变量没有初始化
   + 对undefined执行typeof运算,返回"undefined"
