@@ -2,3 +2,4 @@
 /.git
 /less/src/*/*.css
 .idea/*
+**/node_modules
