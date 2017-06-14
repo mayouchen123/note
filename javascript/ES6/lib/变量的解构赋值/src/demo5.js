@@ -61,3 +61,20 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
   console.log(id, status, number); // 42 'ok' [867, 5309]
 }
+
+{
+  // 函数传入数组默认值
+  var getInfo = function getInfo(_ref2) {
+    var _ref3 = _slicedToArray(_ref2, 3),
+        _ref3$ = _ref3[0],
+        x = _ref3$ === undefined ? 'tom' : _ref3$,
+        _ref3$2 = _ref3[1],
+        y = _ref3$2 === undefined ? '18' : _ref3$2,
+        _ref3$3 = _ref3[2],
+        z = _ref3$3 === undefined ? 'man' : _ref3$3;
+
+    return x + " " + y + " " + z;
+  };
+  var jack = getInfo(['jack', '20', 'man']);
+  console.log(jack);
+}

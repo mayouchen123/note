@@ -37,7 +37,7 @@ console.log(head); // 1
 console.log(tail); // [2, 3, 4]
 ```
 
-如果解构不成功,变量的值就等于undefined
+> 如果解构不成功,变量的值就等于undefined
 
 另一种情况是不完全解构,即等号左边的模式,只匹配一部分的等号右边的数组.这种情况,解构依然可以成功
 
@@ -59,7 +59,8 @@ let [foo] = null;
 
 这是因为解构只能用于数组或对象.其他原始类型的值都可以转为相应的对象,但是undefined和null不能转为对象,因此报错
 
-> 解构赋值允许指定默认值
+## 默认值
+解构赋值允许指定默认值
 
 ```javascript
 let [foo = true] = [];
@@ -81,6 +82,26 @@ console.log(x); // 1
 var [y = 1] =[null];
 console.log(y); // null
 ```
+上面代码中,如果一个数组成员是null,默认值就不会生效,因为null不严格等于undefined
+
+如果默认值是一个表达式,那么这个表达式是惰性求值,即只有在用到的时候,才会求值
+
+```javascript
+function f(){
+  console.log('aaa');
+}
+let [x = f()] = [1];
+```
+
+默认值可以引用解构赋值的其他变量,但该变量必须已经声明
+
+```javascript
+let [x = 1, y = x] = []; // x = 1; y = 1
+let [x = 1, y = x] = [2]; // x = 2; y = 2
+let [x = 1, y = x] = [1, 2]; / x = 1; y =2
+let [x = y, y = 1] = []; // ReferenceError
+```
+上面最后一个表达式之所以会报错,是因为x用到默认值y时,y还没有声明
 
 解构赋值不仅适用于var命令,也适用于let命令和const命令
 

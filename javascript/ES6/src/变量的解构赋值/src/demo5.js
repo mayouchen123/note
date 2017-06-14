@@ -44,3 +44,25 @@
   let {id, status, data:number} = jsonData;
   console.log(id, status, number); // 42 'ok' [867, 5309]
 }
+
+{
+  // 函数传入数组默认值
+  let getInfo = function([x = 'tom', y = '18', z = 'man']){
+    return x + " " + y + " " + z;
+  }
+  let jack = getInfo(['jack', '20', 'man']);
+  console.log(jack);
+
+  let jack2 = getInfo(['jack', '20']);
+  console.log(jack2);
+
+  // 函数传入对象默认值
+  let getInfo2 = function({name = 'peter', age = 20, sex = 'man'}){
+    return name + " " + age + " " + sex;
+  }
+  let peter = getInfo2({});
+  console.log(peter);
+
+  let bob = getInfo2({name:'bob', age:21, sex:'woman'});
+  console.log(bob);
+}
