@@ -134,6 +134,8 @@ let {first: f, last: l} = obj;
 console.log(f, l); // hello world
 ```
 
+> 注意，采用这种写法时，变量的声明和赋值是一体的。对于let和const来说，变量不能重新声明，所以一旦赋值的变量以前声明过，就会报错。
+
 和数组一样,解构也可以用与嵌套的对象
 
 ```javascript

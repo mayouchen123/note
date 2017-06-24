@@ -77,4 +77,24 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
   };
   var jack = getInfo(['jack', '20', 'man']);
   console.log(jack);
+
+  var jack2 = getInfo(['jack', '20']);
+  console.log(jack2);
+
+  // 函数传入对象默认值
+  var getInfo2 = function getInfo2(_ref4) {
+    var _ref4$name = _ref4.name,
+        name = _ref4$name === undefined ? 'peter' : _ref4$name,
+        _ref4$age = _ref4.age,
+        age = _ref4$age === undefined ? 20 : _ref4$age,
+        _ref4$sex = _ref4.sex,
+        sex = _ref4$sex === undefined ? 'man' : _ref4$sex;
+
+    return name + " " + age + " " + sex;
+  };
+  var peter = getInfo2({});
+  console.log(peter);
+
+  var bob = getInfo2({ name: 'bob', age: 21, sex: 'woman' });
+  console.log(bob);
 }

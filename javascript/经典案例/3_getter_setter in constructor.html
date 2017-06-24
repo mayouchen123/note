@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			"use strict";
+			function Emp(id,name,sal,age){
+				this.id=id;
+				this.name=name;
+				this.sal=sal;
+
+				//修改当前对象的数据属性的四大特性:
+				Object.defineProperties(this,{
+					id:{writable:false,configurable:false},
+					name:{configurable:false},
+					sal:{enumerable:false,configurable:false}
+				});
+				//定义访问器属性age:18~65之间
+				var _age;//受保护的局部变量——实际存储属性值
+				Object.defineProperty(this,"age",{
+					get:function(){return _age;},//内层函数
+					set:function(value){//内层函数
+						if(value>=18&&value<=65)
+							_age=value;
+						else
+							throw new Error(
+								"age must between 18 and 65!");
+					}
+				});
+				this.age/*已经是访问器属性*/=age;
+
+				//防篡改:
+				//Object.preventExtensions(this);
+				Object.seal(this);
+				/*this: {
+					id: writable:false
+					name: configurable:false
+					sal: enumerable:false
+					age:{
+						get:function(){(_age) return _age},
+						set:function(value){(_age) _age=value}
+					}
+					内部属性: extensible:false
+				}*/
+			}
+			var emp1=new Emp(1001,"eric",15000,24);
+			           //相当于调用外层函数形成闭包
+//			delete emp1.age;
+			console.dir(emp1);
+			
+		</script>
+	</body>
+</html>
