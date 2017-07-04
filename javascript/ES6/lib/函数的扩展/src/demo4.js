@@ -13,5 +13,6 @@
 
   // ES6
   console.log('ES6\n' + [].concat(arr1, arr2) + '\n');
-  console.log([2].concat(arr2));
+  console.log([2].concat(arr2)); //[ 2, 3, 4 ]
+  console.log([].concat(arr1, arr2)); // [ 1, 2, 3, 4 ]
 }
