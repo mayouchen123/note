@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Selecting/deselecting all items</title>
+</head>
+<body>
+    <div class="heading">
+        <input type="checkbox" data-bind="checked: selectedAllProduce" title="Select all/none"> Produce
+    </div>
+    <div data-bind="foreach: produces">
+        <label for="">
+            <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedProduce">
+            <span data-bind="text: $data, event:{click:$parent.getText}"></span>
+        </label>
+    </div>
+
+    <script src="../../../src/knockoutjs/knockout-3.4.2.debug.js"></script>
+    <script>
+        function MyViewModel() {
+            this.produces = ["Apple", "Banana", "Celery", "Corn", "Orange", "Spinach"];
+            this.selectedProduce = ko.observableArray(["Corn", "Orange"]);
+            this.selectedAllProduce = ko.pureComputed({
+                read: function () {
+                    return this.selectedProduce().length === this.produces.length;
+                },
+                write: function (value) {
+                    this.selectedProduce(value ? this.produces.slice(0) : []);
+                },
+                owner: this
+            })
+            this.getText = function(produce){
+                alert(produce);
+            }
+        }
+        ko.applyBindings(new MyViewModel());
+    </script>
+</body>
+</html>
