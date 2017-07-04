@@ -123,3 +123,5 @@ npm install -g grunt-cli
 | grunt exec: < theme > | Republishes symlinks to the source files to the pub/static/frontend/<Vendor>/<theme>/<locale> directory. | grunt exec:point |
 | grunt less: < theme > | Compiles .css files using the symlinks published in the pub/static/frontend/<Vendor>/<theme>/<locale> directory | grunt less:point |
 | grunt watch | Tracks the changes in the source files, recompiles .css files, and reloads the page in the browser pages (you need to have LiveReload installed for you browser) | grunt watch |
+
+>> 如果要想使用`grunt watch`需要依次执行`grunt clean`->`grunt exec`->`grunt less`->`grunt watch`,打开浏览器安装的`LiveReload`即可实现修改时浏览器实时刷新
