@@ -1,0 +1,56 @@
+mac下安装apache php mysql
+
+apache
+    开启apache
+        sudo apachectl start
+    到apache安装目录
+        cd /etc/apache2
+    copy配置文件httpd.conf
+        sudo cp httpd.conf httpd.conf.bak
+    在配置文件中加入
+        # 记载php5   /usr/libexec/apache2/libphp5.so
+        LoadModule php5_module libexec/apache2/libphp5.so
+    directory配置
+        Options选项用于定义目录使用哪些特性,包括Indexs,MultViews和ExecCGI等
+            Indexes 允许目录浏览
+            MultiViews 允许内容协商的多重视图
+            All
+            ExecCGI 允许在该目录下执行CGI脚本
+            FollowSymLinks 可以在该目录中使用符号链接
+            Includes 允许服务端包含功能
+            IncludesNoExec 允许服务端包含功能,但禁用执行CGI脚本
+
+
+卸载mysql
+    sudo rm /usr/local/mysql
+    sudo rm -rf /usr/local/mysql*
+    sudo rm -rf /Library/StartupItems/MySQLCOM
+    sudo rm -rf /Library/PreferencePanes/My*
+    vim /etc/hostconfig  (and removed the line MYSQLCOM=-YES-)
+    rm -rf ~/Library/PreferencePanes/My*
+    sudo rm -rf /Library/Receipts/mysql*
+    sudo rm -rf /Library/Receipts/MySQL*
+    sudo rm -rf /var/db/receipts/com.mysql.*
+
+查看php配置文件
+    php --ini
+
+php库文件
+    # 加载 php5   /usr/libexec/apache2/libphp5.so
+
+使用homebrew 安装 amp
+    brew tap josegonzalez/php
+    brew tap josegonzalez/homebrew-php
+
+    brew install php70 --with-cgi --with-debug --with-gmp --with-httpd24 --with-imap
+    brew install php70 --with-httpd24 可以使用这个安装
+安装crypt
+    brew install -fs php70-mcrypt
+
+安装intl
+    brew install -s php70-intl
+
+brew 删除tap
+    brew untap josegonzalez/php
+
+图形化软件(dmg,pkg包)可以安装 brew cask下载

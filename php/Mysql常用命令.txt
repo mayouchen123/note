@@ -1,0 +1,393 @@
+/**
+ * Mysql常用命令
+ ＊Name:peter
+ *Mail:peter@xulukun.cn
+ *Blog:http://www.xulukun.cn
+ */
+
+========== 华丽分割线 ==========
+
+＊ shll链接mysql客户端
+	mysql -u用户名 -p密码 -h主机地址 -P端口号
+＊ 显示当前mysql服务器版本
+	SELECT VERSION();
+＊ 显示当前日期
+	SELECT NOW();
+＊ 显示当前用户
+	SELECT USER();
+＊ 显示当前数据库
+	SELECT DATABASE();
+* mysql用户设置
+	USE mysql;
+	INSERT INTO user 
+          (host, user, password, 
+           select_priv, insert_priv, update_priv) 
+           VALUES ('localhost', 'guest', 
+           PASSWORD('guest123'), 'Y', 'Y', 'Y');
+    插入用户名为guest的用户，使用PASSWORD()函数来对密码加密。
+    FLUSH PRIVILEGES;
+    重新载入授权表
+	你可以在创建用户时，为用户指定权限，在对应的权限列中，在插入语句中设置为 'Y' 即可，用户权限列表如下：
+		Select_priv
+		Insert_priv
+		Update_priv
+		Delete_priv
+		Create_priv
+		Drop_priv
+		Reload_priv
+		Shutdown_priv
+		Process_priv
+		File_priv
+		Grant_priv
+		References_priv
+		Index_priv
+		Alter_priv
+＊ 创建数据库
+	CREATE DATABASE [IF NOT EXISTS] db_name [[DEFAULT] CHARACTER SET [=] 字符编码]
+	CREATE DATABASE IF NOT EXISTS demo_db DEFAULT CHARACTER SET = utf8 COLLATE utf8_general_ci;
+＊ 显示创建数据库命令
+	SHOW CREATE DATABASE 数据库名;
+＊ 修改数据库编码
+	ALTER DATABASE 数据库名称 [DEFAULT] CHARACTER SET [=] 字符编码;
+＊ 删除数据库
+	DROP DATABASE [IF EXISTS] 数据库名;
+
+========== 华丽分割线 ==========
+
+＊ 数据类型
+	概述：数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。
+
+	整型：
+		TINYINT	    占用1字节 
+				    有符号值：－128～127(-2的7次方～－2的7次方－1)
+				    无符号值：0～255(0～2的8次方－1)
+		SMALLINT    占用2字节
+					有符号值：－32768～32767(-2的15次方～2的15次方－1)
+					无符号值：0～65535(0～2的16次方－1)
+		MEDIUMINT	占用3字节
+					有符号值：－8388608～8388607(－2的23次方～2的23次方－1)
+					无符号值：0～16777215(0~2的24次方－1)
+		INT			占用4字节
+					有符号值：－2147483648～2147483647(-2的31次方～2的31次方－1)
+					无符号值：0～4294967295(0～2的32次方－1)
+		BIGINT		占用8字节
+					有符号值：－9223372036854775808～9223372036854775808(-2的63次方到2的63次方－1)
+					无符号值：0～18446744073709551615(0到2的64次方－1)
+	浮点类型：
+		FLOAT[(M,D)]	占用4字节	 
+                        -3.402823466E+38到－1.175494351E-38、0和.175494351E-38到
+						3.402823466E+38。
+						M是数字总位数，D是小数点后面的位数。如果M和D被省略，根据硬件允许的限制来保存值。单精度浮点数精确到大约7位小数位。
+		DOUBLE[(M,D)]   占用8字节
+		                -1.7976931348623157eE+308到-2.2250738585072014E-308、0和
+						2.2250738585072014E-308到1.7976931348623157eE+308
+	日期和时间类型：
+		DATE      占用3字节
+				  1000-01-01/9999-12-31	YYYY-MM-DD	日期值
+		TIME	  占用3字节
+				  '-838:59:59'/'838:59:59'	HH:MM:SS  时间值或持续时间
+		YEAR	  占用1个字节
+				  1901/2155   YYYY   年份值
+		DATETIME  占用8字节
+				  1000-01-01 00:00:00/9999-12-31 23:59:59   YYYY-MM-DD HH:MM:SS   混合日期和时间值
+		TIMESTAMP 占用8字节
+				  1970-01-01 00:00:00/2037 年某时   YYYYMMDD HHMMSS 
+				  混合日期和时间值，时间戳
+	字符串类型：
+		CHAR 	      0-255字节	 定长字符串
+		VARCHAR       0-65535字节   定长字符串
+		TINYBLOB      0-255字节   不超过255个字符的二进制字符串
+		TINYTEXT      0-255字节   短文本字符串
+		BLOB 		  0-65535字节   二进制形式的长文本数据
+		TEXT 		  0-65535字节   长文本数据
+		MEDIUMBLOB    0-16777215字节   二进制形式的中等长度文本数据
+		MEDIUMTEXT    0-16777215字节   中等长度文本数据
+		LOGNGBLOB     0-4294967295字节   二进制形式的极大文本数据
+		LONGTEXT      0-4294967295   极大文本数据
+
+========== 华丽分割线 ==========
+
+＊ 创建表
+	CREATE TABLE table_name(column_name column_type);
+	CREATE TABLE tutorials_tbl(
+		   -> tutorial_id INT NOT NULL AUTO_INCREMENT,
+		   -> tutorial_title VARCHAR(100) NOT NULL,
+		   -> tutorial_author VARCHAR(40) NOT NULL,
+		   -> submission_date DATE,
+		   -> PRIMARY KEY ( tutorial_id )
+		   -> );	
+	PRIMARY KEY设置主键
+＊ 删除数据表
+	DROP TABLE table_name;
+* INSERT
+	INSERT INTO table_name(field1,field2,...fieldN) VALUES(value1,value2,...valueN);
+* SELECT语句
+	SELECT field1,field2,...fieldN FROM table_name;
+＊ WHERE查询
+	SELECT field1,field2,...fieldN FROM table_name [WHERE conddition1 [AND [OR] ] conddition2... ];
+* UPDATE语句
+	UPDATE table_name SET field1 = new-value1,field2=new-value2 [WHERE Clause];
+* DELETE语句
+	DELETE FROM table_name [WHERE Clause];
+* LIKE子句
+	SELECT field1,field2,...fieldN FROM table_name WHERE field LIKE condition1 [AND [OR] ] filed2 = '';
+＊ ORDER BY
+	SELECT field1,field2,...fieldN FROM table_name ORDER BY field1,[field2...] [ASC [DESC]];
+* JOIN
+	SELECT field1,field2,... FROM table_name1 INNER JOIN table_name2 ON table_name1.id = table_name2.id;
+	
+========== 华丽分割线 ==========
+
+* NULL处理
+  我们已经知道MySQL使用 SQL SELECT 命令及 WHERE 子句来读取数据表中的数据,但是当提供的查询条件字段为 NULL 时，该命令可能就无法正常工作。
+  为了处理这种情况，MySQL提供了三大运算符：
+  IS NULL: 当列的值是NULL,此运算符返回true。
+  IS NOT NULL: 当列的值不为NULL, 运算符返回true。
+  <=>: 比较操作符（不同于=运算符），当比较的的两个值为NULL时返回true。
+  SELECT * FROM table_name WHERE field IS NULL;
+  SELECT * FROM table_name WHERE field IS NOT NULL;
+＊ mysql事务
+  mysql事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你即需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务！
+  在mysql中只有使用了Innodb数据库引擎的数据库或表才支持事务
+  事务处理可以用来维护数据库的完整性，保证成批的SQL语句要么全部执行要么不执行
+  事务用来管理INSERT,UPDATE,DELETE语句
+  一般来说，事务是必须满足4个条件(ACID):Atomicity(原子性)、Consistency(稳定性)、Isolation(隔离性)、Durability(可靠性)
+  1.事务的原子性：一组事务、要么成功、要么撤回。
+  2.稳定性：有非法数据(外键约束之类)，事务撤回。
+  3.隔离性：事务独立运行。一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。事务的100%隔离，需要牺牲速度。
+  4.可靠性：软、硬件崩溃后，Innodb数据表驱动会利用日志文件重构修改。可靠性和高速度不可兼得，
+  innodb_flush_log_at_trx_commit选项决定什么时候把事务保存到日志里。
+  	(1)开始一个事务
+  		start transaction
+  	(2)做保存点
+  		save point 保存点名称
+  	(3)操作
+  	(4)可以回滚，可以提交，没有问题，就提交，有问题就回滚。
+  		$handler=mysql_connect("localhost","root","password");
+		mysql_select_db("task");
+		mysql_query("SET AUTOCOMMIT=0");//设置为不自动提交，因为MYSQL默认立即执行
+		mysql_query("BEGIN");//开始事务定义
+		if(!mysql_query("insert into trans (id) values('2')"))
+		{
+		mysql_query("ROLLBACK");//判断当执行失败时回滚
+		}
+		if(!mysql_query("insert into trans (id) values('4')"))
+		{
+		mysql_query("ROLLBACK");//判断执行失败回滚
+		}
+		mysql_query("COMMIT");//执行事务
+		mysql_close($handler);	
+
+* mysql alter
+	删除，添加或修改表字段
+	删除字段
+		ALTER TABLE table_name DROP 字段;
+		ALTER TABLE demo DROP i;
+		如果数据表中只剩余一个字段则无法使用DROP来删除字段
+	添加字段
+		ALTER TABLE table_name ADD 字段信息；
+		ALTER TABLE demo ADD i INT;
+  		如果你需要指定新增字段的位置，可以使用mysql提供的关键字FIRST(设定位第一列)，AFTER字段名(设定位于某个字段之后)。
+  		ALTER TABLE demo ADD i INT FIRST;
+  		ALTER TABLE demo ADD i INT AFTER c;
+  		FIRST和AFTER关键字只占用于ADD子句
+  	修改字段类型及名称
+  		如果需要修改字段类型及名称，你可以在ALTER命令中使用MODIFY或CHANGE子句。
+  		例如，把字段c的类型从CHAR(1)改为CHAR(10),可以执行以下命令
+  		ALTER TABLE demo MODIFY c CHAR(10);
+  		ALTER TABLE demo CHANGE i j BIGINT;
+  	ALTER TABLE 对Null值和默认值的影响
+  		ALTER TABLE demo MODIFY j BIGINT NOT NULL DEFAULT 100;
+  	修改默认字段
+  		ALTER TABLE demo ALTER i SET DEFAULT 100;
+  	删除默认字段
+  		ALTER TABLE demo ALTER i DROP DEFAULT;
+  	修改数据表类型，可以使用ALTER命令及TYPE子句来完成。
+  		ALTER TABLE demo TYPE = MYISAM;
+  	修改表名
+  		ALTER TABLE demo RENAME TO demo1;
+
+ * mysql 索引
+ 	mysql索引的建立对于mysql的高效运行是很重要的，索引可以大大提高mysql的检索速度。
+ 	打个比方，如果合理的设计且使用索引的mysql是一辆兰博基尼，那么没有设计和使用索引的mysql就是一个人力三轮车
+ 	索引分单列索引和组合索引。单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引。组合索引，即一个索包含多个列。
+ 	创建索引时，你需要确保该索引时应用在sql查询语句的条件(一般作为WHERE子句的条件)。
+ 	实际上，索引也是一张表，该表保存了主键与索引字段，并指向实体表的纪录。
+ 	上面都在说使用索引的好处，但过多的使用索引将会造成滥用。因此索引也会有它的缺点：虽然索引大大提高了查询速度，同时却会降低更新表的速度，如对表进行INSERT,UPDATE和DELETE。因为更新表时，mysql不仅要保存数据，还要保存一下索引文件。
+ 	建立索引会占用磁盘空间的索引文件。
+
+ 	普通索引
+ 	创建索引
+	 	CREATE INDEX indexName ON mytable(username(length));
+	修改表结构
+		ALTER mytable ADD INDEX [indexName] ON (username(length))
+	创建表的时候直接指定
+		CREATE TABLE mytable(
+			id INT NOT NULL,
+			username VARCHAR(16) NOT NULL,
+			INDEX [indexName] (username(length))
+		);
+	删除索引的语法
+		DROP INDEX [indexName] ON mytable;
+
+	唯一索引
+	它与前面的普通索引类似，不同的就是：索引列的值必须唯一，但允许有空值。如果是组合索引，则列值的组合必须唯一。它有以下几种创建方式：
+	创建索引
+		CREATE UNIQUE INDEX indexName ON mytable(username(length));
+	修改表结构
+		ALTER mytable ADD UNIQUE [indexName] ON (username(length));
+	创建表的时候直接指定
+		CREATE TABLE mytable (
+			id INT NOT NULL,
+			username VARCHAR(16) NOT NULL,
+			UNIQUE [indexName] (username(length))
+		);
+	使用ALTER命令添加和删除索引
+		ALTER TABLE tbl_name ADD PRIMARY KEY (column_list): 该语句添加一个主键，这意味着索引值必须是唯一的，且不能为NULL。
+		ALTER TABLE tbl_name ADD UNIQUE index_name (column_list): 这条语句创建索引的值必须是唯一的（除了NULL外，NULL可能会出现多次）。
+		ALTER TABLE tbl_name ADD INDEX index_name (column_list): 添加普通索引，索引值可出现多次。
+		ALTER TABLE tbl_name ADD FULLTEXT index_name (column_list):该语句指定了索引为 FULLTEXT ，用于全文索引。
+	显示索引信息
+		SHOW INDEX FROM table_name\G;
+
+========== 华丽分割线 ==========
+
+* mysql临时表
+	mysql临时表在我们需要保存一些临时数据时是非常有用的。临时表只在当前链接可见，当关闭链接时，mysql会自动删除并释放所有空间。
+	临时表在mysql3.23版本中添加，如果你的mysql版本低于3.23就无法使用mysql的临时表。不过现在一般很少有再使用这么低版本的mysql数据库服务了
+	mysql临时表只在当前链接可见，如果你使用PHP脚本来创建mysql临时表，那每当PHP脚本执行完成后，该临时表自动销毁。
+	如果你使用了其他mysql客户端程序连接mysql数据库服务器来创建临时表，那么只有在关闭客户端程序时才会销毁临时表，当然你也可以手动销毁。
+	以下展示了使用MySQL 临时表的简单实例，以下的SQL代码可以适用于PHP脚本的mysql_query()函数。
+		mysql> CREATE TEMPORARY TABLE SalesSummary (
+	    -> product_name VARCHAR(50) NOT NULL
+	    -> , total_sales DECIMAL(12,2) NOT NULL DEFAULT 0.00
+	    -> , avg_unit_price DECIMAL(7,2) NOT NULL DEFAULT 0.00
+	    -> , total_units_sold INT UNSIGNED NOT NULL DEFAULT 0
+		);
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql> INSERT INTO SalesSummary
+		    -> (product_name, total_sales, avg_unit_price, total_units_sold)
+		    -> VALUES
+		    -> ('cucumber', 100.25, 90, 2);
+
+		mysql> SELECT * FROM SalesSummary;
+		+--------------+-------------+----------------+------------------+
+		| product_name | total_sales | avg_unit_price | total_units_sold |
+		+--------------+-------------+----------------+------------------+
+		| cucumber     |      100.25 |          90.00 |                2 |
+		+--------------+-------------+----------------+------------------+
+		1 row in set (0.00 sec)
+	当你使用 SHOW TABLES命令显示数据表列表时，你将无法看到 SalesSummary表。
+	如果你退出当前MySQL会话，再使用 SELECT命令来读取原先创建的临时表数据，那你会发现数据库中没有该表的存在，因为在你退出时该临时表已经被销毁了。	
+
+＊ mysql复制表
+	如果我们需要完全的复制mysql的数据表，包括表的结构，索引，默认值等。如果仅仅使用CREATE TABLE ... SELECT 命令，是无法实现的。
+	使用SHOW CREATE TABLE命令获取创建数据表(CREATE TABLE)语句，该语句包含了原数据表的结构，索引等。
+	复制以下命令显示的SQL语句，修改数据表名，并执行SQL语句，通过以上命令将完全的复制数据表结构
+	如果你想复制表内容，你就可以使用INSERT INTO ...SELECT语句来实现。
+	步骤1
+		获取数据表的网站结构
+		mysql> SHOW CREATE TABLE tutorials_tbl \G;
+		*************************** 1. row ***************************
+		       Table: tutorials_tbl
+		Create Table: CREATE TABLE `tutorials_tbl` (
+		  `tutorial_id` int(11) NOT NULL auto_increment,
+		  `tutorial_title` varchar(100) NOT NULL default '',
+		  `tutorial_author` varchar(40) NOT NULL default '',
+		  `submission_date` date default NULL,
+		  PRIMARY KEY  (`tutorial_id`),
+		  UNIQUE KEY `AUTHOR_INDEX` (`tutorial_author`)
+		) TYPE=MyISAM
+		1 row in set (0.00 sec)
+
+		ERROR:
+		No query specified
+	步骤2
+		修改SQL语句的数据表名，并执行SQL语句
+		mysql> CREATE TABLE `clone_tbl` (
+		  -> `tutorial_id` int(11) NOT NULL auto_increment,
+		  -> `tutorial_title` varchar(100) NOT NULL default '',
+		  -> `tutorial_author` varchar(40) NOT NULL default '',
+		  -> `submission_date` date default NULL,
+		  -> PRIMARY KEY  (`tutorial_id`),
+		  -> UNIQUE KEY `AUTHOR_INDEX` (`tutorial_author`)
+		-> ) TYPE=MyISAM;
+		Query OK, 0 rows affected (1.80 sec)
+
+	步骤3
+		mysql> INSERT INTO clone_tbl (tutorial_id,
+	    ->                        tutorial_title,
+	    ->                        tutorial_author,
+	    ->                        submission_date)
+	    -> SELECT tutorial_id,tutorial_title,
+	    ->        tutorial_author,submission_date
+	    -> FROM tutorials_tbl;
+		Query OK, 3 rows affected (0.07 sec)
+		Records: 3  Duplicates: 0  Warnings: 0
+
+========== 华丽分割线 ==========
+
+＊ mysql处理重复数据
+	统计重复数据
+		以下我们将统计表中first_name和last_name的重复纪录数
+		mysql> SELECT COUNT(*) as repetitions, last_name, first_name
+	    -> FROM person_tbl
+	    -> GROUP BY last_name, first_name
+	    -> HAVING repetitions > 1;
+	    以上查询语句将返回 person_tbl 表中重复的记录数。 一般情况下，查询重复的值，请执行以下操作：
+	    确定哪一列包含的值可能会重复。
+	    在列选择列表使用COUNT(*)列出的那些列。
+	    在GROUP BY子句中列出的列。
+	    HAVING子句设置重复数大于1。
+
+    过滤重复数据
+    	如果你需要读取不重复的数据可以在 SELECT 语句中使用 DISTINCT 关键字来过滤重复数据。
+    	mysql> SELECT DISTINCT last_name, first_name
+	    -> FROM person_tbl
+	    -> ORDER BY last_name;
+
+	删除重复数据
+		如果你想删除数据表中的重复数据，你可以使用以下的SQL语句：
+		mysql> CREATE TABLE tmp SELECT last_name, first_name, sex
+	    ->                  FROM person_tbl;
+	    ->                  GROUP BY (last_name, first_name);
+		mysql> DROP TABLE person_tbl;
+		mysql> ALTER TABLE tmp RENAME TO person_tbl;
+	    当然你也可以在数据表中添加 INDEX（索引） 和 PRIMAY KEY（主键）这种简单的方法来删除表中的重复记录。方法如下：
+	    mysql> ALTER IGNORE TABLE person_tbl
+ 	    -> ADD PRIMARY KEY (last_name, first_name);
+ 	    
+========== 华丽分割线 ==========
+
+ 	mysql视图
+ 		创建视图
+ 		create view 视图名
+ 		as
+ 		select语句;
+ 		修改视图
+ 		alter view 视图名
+ 		as 
+ 		select语句;
+ 		查看视图
+ 		1.show tables;
+ 		2.information_schema库->view表
+ 			select * from view视图
+ 		删除视图
+ 		drop view 视图
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

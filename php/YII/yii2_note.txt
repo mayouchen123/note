@@ -1,0 +1,16 @@
+/**
+ * YII1 note
+ *name:peter
+ *mail:peter@xulukun.cn
+ *blog:www.xulukun.cn
+ */
+
+配置Gii
+	config/main.php
+	打开gii配置文件
+	'gii'=>array(
+	'class'=>'system.gii.GiiModule',
+	// If removed, Gii defaults to localhost only. Edit carefully to taste.
+	'ipFilters'=>array('127.0.0.1','::1'),
+	),
+	

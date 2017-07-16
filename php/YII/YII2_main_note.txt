@@ -1,0 +1,204 @@
+/**
+ * YII2 Controller NOTE
+ *name:peter
+ *mail:peter@xulukun.cn
+ *blog:www.xulukun.cn
+ */
+
+==========YII2 Controller NOTE==========
+
+通过Composer安装YII2
+	如果还没有安装 Composer,在 Linux 和 Mac OS X 中可以运行如下命令
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar /usr/local/bin/composer
+
+	composer //版本
+	Composer 安装后，切换到一个可通过 Web 访问的目录，执行如下命令即可安装 Yii ：
+	composer global require "fxp/composer-asset-plugin:~1.0.0"
+	composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+	第一条命令安装 Composer asset plugin，它是通过 Composer 管理 bower 和 npm 包所必须的，此命令全局生效，一劳永逸。 第二条命令会将 Yii 安装在名为 basic 的目录中，你也可以随便选择其他名称。
+	技巧：如果你想安装 Yii 的最新开发版本，可以使用以下命令代替，它添加了一个 stability 选项（中文版）:
+	composer create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+
+    composer create-project yiisoft/yii2-app-basic yii --prefer-dist
+    --prefer-dist  //优先下载压缩版
+
+应用结构
+	basic 	//应用根目录
+		composer.json 		Composer 配置文件，描述包信息
+		config/ 			包含应用配置及其他配置
+			console.php 	控制台应用配置信息
+			web.php			web 应用配置信息
+		commands/			包含控制台命令类
+		controllers/		包含控制器类
+		models/				包含模型类
+		runtime/			包含yii在运行时生成的文件，例如日志和缓存文件
+		vendor/				包含已经安装的composer包，包括yii框架自身
+		views/				包含视图文件
+		web/				web 应用根目录，包含web 入口文件
+			assets/			包含yii发布的资源文件(javascript和css)
+			index.php		应用入口文件
+		yii 				yii控制台命令执行脚步
+
+设置apache路由重写
+	新建文件.htaccess  写入以下内容
+	RewriteEngine on
+	# prevent httpd from serving dotfiles (.htaccess, .svn, .git, etc.)
+	RedirectMatch 403 /\..*$
+	# if a directory or a file exists, use it directly
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	# otherwise forward it to index.php
+	RewriteRule . index.php
+
+设置nginx路由重写
+server {
+	    set $host_path "/www/mysite";
+	    access_log  /www/mysite/log/access.log  main;
+	    server_name  mysite;
+	    root   $host_path/htdocs;
+	    set $yii_bootstrap "index.php";
+	    charset utf-8;
+	    location / {
+	        index  index.html $yii_bootstrap;
+	        try_files $uri $uri/ /$yii_bootstrap?$args;
+		}
+	    location ~ ^/(protected|framework|themes/\w+/views) {
+	        deny  all;
+		}
+	    #avoid processing of calls to unexisting static files by yii
+	    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+	        try_files $uri =404;
+	    }
+	    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	    #
+	    location ~ \.php {
+	        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+	        #let yii catch the calls to unexising PHP files
+	        set $fsn /$yii_bootstrap;
+	        if (-f $document_root$fastcgi_script_name){
+	    set $fsn $fastcgi_script_name;
+		}
+		fastcgi_pass   127.0.0.1:9000;
+		include fastcgi_params;
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
+	        #PATH_INFO and PATH_TRANSLATED can be omitted, but RFC 3875 specifies them for CGI
+	        fastcgi_param  PATH_INFO        $fastcgi_path_info;
+	        fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
+		}
+	    # prevent nginx from serving dotfiles (.htaccess, .svn, .git, etc.)
+	    location ~ /\. {
+	        deny all;
+	        access_log off;
+	        log_not_found off;
+		}
+	}
+
+
+应用组件(components)============================start
+    第一次使用以上表达式时候会创建应用组件实例， 后续再访问会返回此实例，无需再次创建。
+    应用组件可以是任意对象，可以在 应用主体配置配置 yii\base\Application::components 属性 . 例如：
+    [
+        'components' => [
+            // 使用类名注册 "cache" 组件
+            'cache' => 'yii\caching\ApcCache',
+
+            // 使用配置数组注册 "db" 组件
+            'db' => [
+                'class' => 'yii\db\Connection',
+                'dsn' => 'mysql:host=localhost;dbname=demo',
+                'username' => 'root',
+                'password' => '',
+            ],
+
+            // 使用函数注册"search" 组件
+            'search' => function () {
+                return new app\components\SolrService;
+            },
+        ],
+    ]
+    补充：请谨慎注册太多应用组件， 应用组件就像全局变量， 使用太多可能加大测试和维护的难度。
+     一般情况下可以在需要时再创建本地组件。
+
+
+应用组件(components)============================end
+
+lazy_loading  Yii高效的特点
+
+//类的映射表机制  提高类自动加载的效率 提高类的加载
+\Yii::$classMap['app\models\Order'] = \Yii::getAlias('@app/models/Order.php');
+$data = Order::find();
+
+别名(Aliases)
+    别名用来表示文件路径和 URL，这样就避免了在代码中硬编码一些绝对路径 和 URL。一个别名必须以 @ 字符开头，以区别于传统的文件路径和 URL。
+    Yii 预定义了大量可用的别名。例如，别名 @yii 指的是 Yii 框架本身的安装 目录，而 @web 表示的是当前运行应用的根 URL。
+    定义别名    Yii::setAlias()
+    // 文件路径的别名
+    Yii::setAlias('@foo', '/path/to/foo');
+    // URL 的别名
+    Yii::setAlias('@bar', 'http://www.example.com');
+    根别名通常在引导阶段定义。比如你可以在 入口脚本里调用 Yii::setAlias()。为 了方便起见，应用提供了一个名为 aliases的 可写属性，你可以在应用配置中设置它，就像这样：
+    return [
+        // ...
+        'aliases' => [
+            '@foo' => '/path/to/foo',
+            '@bar' => 'http://www.example.com',
+        ],
+    ];
+    解析别名
+    echo Yii::getAlias('@foo');               // 输出：/path/to/foo
+    echo Yii::getAlias('@bar');               // 输出：http://www.example.com
+    echo Yii::getAlias('@foo/bar/file.php');  // 输出：/path/to/foo/bar/file.php
+
+config  web.php 配置文件=============================start
+
+$config = [
+
+    //定义路径/URL别名
+    'aliases' => [
+      '@order' => '@app/models/Order.php',
+    ],
+    //加载缓存组件
+    'cache' => [
+        'class' => 'yii\caching\FileCache',
+    ],
+
+];
+
+config  web.php 配置文件=============================end
+
+分页类(Pagination)==================================start
+use yii\data\Pagination;
+
+分页类(Pagination)==================================end
+
+读取配置文件数据(params.php)
+$pagesize = Yii::$app->params['pageSize']['manage'];
+//获取应用id
+echo \Yii::$app->id;
+//获取应用目录
+echo \Yii::$app->basePath;
+
+核心组件(components)=========================================start
+    yii\web\AssetManager: 管理资源包和资源发布
+    yii\db\Connection: 代表一个可以执行数据库操作的数据库连接， 注意配置该组件时必须指定组件类名和其他相关组件属性
+    yii\base\Application::errorHandler: 处理 PHP 错误和异常
+    yii\i18n\Formatter: 格式化输出显示给终端用户的数据， 例如数字可能要带分隔符， 日期使用长格式。
+    yii\i18n\I18N: 支持信息翻译和格式化。
+    yii\log\Dispatcher: 管理日志对象
+    yii\swiftmailer\Mailer: 支持生成邮件结构并发送
+    yii\base\Application::response: 代表发送给用户的响应
+    yii\base\Application::request: 代表从终端用户处接收到的请求
+    yii\web\Session: 代表会话信息， 仅在yii\web\Application 网页应用中可用
+    yii\web\UrlManager: 支持URL地址解析和创建
+    yii\web\User: 代表认证登录用户信息
+    yii\web\View: 支持渲染视图
+核心组件(components)=========================================end
+
+性能分析========================================start
+\Yii::beginProfile('myBenchmark');
+
+...code block being profiled...
+
+\Yii::endProfile('myBenchmark');
+性能分析========================================end

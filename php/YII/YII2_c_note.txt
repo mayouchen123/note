@@ -1,0 +1,217 @@
+/**
+ * YII2 Controller NOTE
+ *name:peter
+ *mail:peter@xulukun.cn
+ *blog:www.xulukun.cn
+ */
+
+==========YII2 Controller NOTE==========
+
+请求组件(request)===================================================start
+获取请求类型
+    $request = Yii::$app->request;
+
+    $get = $request->get();
+    // 等价于: $get = $_GET;
+
+    $id = $request->get('id');
+    // 等价于: $id = isset($_GET['id']) ? $_GET['id'] : null;
+
+    $id = $request->get('id', 1);
+    // 等价于: $id = isset($_GET['id']) ? $_GET['id'] : 1;
+
+    $post = $request->post();
+    // 等价于: $post = $_POST;
+
+    $name = $request->post('name');
+    // 等价于: $name = isset($_POST['name']) ? $_POST['name'] : null;
+
+    $name = $request->post('name', '');
+    // 等价于: $name = isset($_POST['name']) ? $_POST['name'] : '';
+
+    // 返回所有参数
+    $params = $request->bodyParams;
+
+    // 返回参数 "id"
+    $param = $request->getBodyParam('id');
+
+    if ($request->isAjax) { /* 该请求是一个 AJAX 请求 */ }
+    if ($request->isGet)  { /* 请求方法是 GET */ }
+    if ($request->isPost) { /* 请求方法是 POST */ }
+    if ($request->isPut)  { /* 请求方法是 PUT */ }
+
+请求URLs
+    假设被请求的URL是 http://example.com/admin/index.php/product?id=100， 你可以像下面描述的那样获取URL的各个部分
+    * yii\web\Request::url 返回admin/index.php/product?id=100  此URL不包括host info部分
+    * yii\web\Request::absoluteUrl 返回http://example.com/admin/index.php/product?id=100  包含host infode的整个URL
+    * yii\web\Request::hostInfo 返回http://example.com  只有host info部分
+    * yii\web\Request::pathInfo 返回/product 这个是入口脚本之后
+    * yii\web\Request::queryString 返回id=100  问号之后的部分
+    * yii\web\Request::baseUrl 返回/admin  host info之后,入口脚本之前
+    * yii\web\Request::scriptUrl 返回/admin/index.php
+    * yii\web\Request::serverName 返回example.com  URL中的host name
+    * yii\web\Request::serverPort 返回80
+
+HTTP 头部
+    $headers = Yii::$app->response->headers;
+
+    // 增加一个 Pragma 头，已存在的Pragma 头不会被覆盖。
+    $headers->add('Pragma', 'no-cache');
+
+    // 设置一个Pragma 头. 任何已存在的Pragma 头都会被丢弃
+    $headers->set('Pragma', 'no-cache');
+
+    $headers=>get('Pragma');
+
+    // 删除Pragma 头并返回删除的Pragma 头的值到数组
+    $values = $headers->remove('Pragma');
+
+请求组件(request)===================================================end
+
+响应组件(response)===================================================start
+    $response = Yii::$app->response;
+    $response->setStatusCode(404); //设置状态返回码
+    $response->sendFile('./favicon.ico'); //下载文件
+    $response->redirect('http://www.baidu.com'); //页面重定向
+
+
+响应组件(response)===================================================end
+
+session组件(session)===================================================start
+    * session 继承\ArrayAccess接口(数组式访问)
+
+    $session->open();//开启session
+    $session->set('name','peter'); //设置session
+    echo $session->getId(); //获取session id
+    //echo $session->getSavePath();
+    echo $session->get('name'); //获取session
+    $session->remove('name'); //删除session
+
+session组件(session)===================================================end
+
+cookie组件(session)===================================================start
+    $cookie = Yii::$app->response->cookies; //调用cookie组件
+    $data = [
+        'name' => 'user',
+        'value' => 'peter'
+    ]; //设置cookie的值
+    $cookie->add(new Cookie($data)); //添加cookie
+    echo $cookie->get('user'); //获取cookie
+    echo $cookie->getValue('user','tom'); //获取到cookie user不存在 默认tom
+    echo $cookie->count; //获取cookir数
+    $cookie->remove('user'); //删除cookie
+cookie组件(session)===================================================end
+
+缓存组件(cache)===================================================start
+    //获取缓存组件
+    $cache = \Yii::$app->cache;
+    //添加缓存数据
+    //$cache->add('name','peter');
+    //添加数据 并设置数据的有效期5s
+    //$cache->add('name','peter',5);
+    //修改缓存数据
+    //$cache->set('name','tom');
+    //删除缓存数据
+    //$cache->delete('name');
+    //清空数据
+    //$cache->flush();
+    //获取缓存数据
+    //echo $cache->get('name');
+
+    //在控制器方法之前执行   在控制器中定义此方法
+    public function behaviors()
+    {
+        //echo '123';
+        return [
+            [
+                'class'=> 'yii\filters\PageCache', //页面缓存
+                'duration'=>1000,
+
+            ]
+        ];
+    }
+
+缓存组件(cache)===================================================end
+
+xss攻击防范===================================================start
+        Yii::$app->response->headers->add('X-XSS-Protection','0');
+        echo \Yii::$app->request->get('name');
+
+xss攻击防范===================================================end
+
+创建模块/调用子模块=============================================start
+使用gii创建模块
+    Module Class
+    app\modules\admin\Admin
+    Module ID
+    admin
+    需要在config web.php 配置开启模块
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Admin',
+        ],
+    ],
+
+    public function actionTest1()
+    {
+        //获取子模块
+        $adminModule = Yii::$app->getModule('admin');
+        //调用子模块的操作
+        $adminModule->runAction('default/index'); //模块控制器 方法
+
+    }
+
+创建模块/调用子模块=============================================end
+
+
+错误提示类
+    use yii\web\NotFoundHttpException;
+    throw new NotFoundHttpException;
+
+
+
+Flash 数据
+    $session = Yii::$app->session;
+
+    // 请求 #1
+    // 设置一个名为"postDeleted" flash 信息
+    $session->setFlash('postDeleted', 'You have successfully deleted your post.');
+
+    // 请求 #2
+    // 显示名为"postDeleted" flash 信息
+    echo $session->getFlash('postDeleted');
+
+    // 请求 #3
+    // $result 为 false，因为flash信息已被自动删除
+    $result = $session->hasFlash('postDeleted');
+
+
+过滤器
+过滤器是 控制器 动作 执行之前或之后执行的对象。
+例如访问控制过滤器可在动作执行之前来控制特殊终端用户是否有权限执行动作， 内容压缩过滤器可在动作执行之后发给终端用户之前压缩响应内容。
+
+使用过滤器
+过滤器本质上是一类特殊的 行为，所以使用过滤器和 使用 行为一样。 可以在控制器类中覆盖它的 yii\base\Controller::behaviors() 方法来申明过滤器， 如下所示：
+public function behaviors()
+{
+    return [
+        [
+            'class' => 'yii\filters\HttpCache',
+            'only' => ['index', 'view'],
+            'lastModified' => function ($action, $params) {
+                $q = new \yii\db\Query();
+                return $q->from('user')->max('updated_at');
+            },
+        ],
+    ];
+}
+
+
+
+
+
+
+
+
+					
+

@@ -1,0 +1,92 @@
+/**
+ * YII2 View NOTE
+ *name:peter
+ *mail:peter@xulukun.cn
+ *blog:www.xulukun.cn
+ */
+
+==========YII2 View NOTE==========
+
+在一个视图中引用另一个视图文件
+    <?=$this->render('about');?>
+
+视图数据模块
+    在内容视图文件定义数据模块
+    <?php $this->beginBlock('block1');?>
+    <h1>this is Block</h1>
+    <?php $this->endBlock();?>
+    再到布局文件调用
+    <?=$this->blocks['block1'];?>
+
+缓存(cache)===============================start
+    片段缓存 view
+    <?php if($this->beginCache('cache_div')) { ?>
+        <div class="cache_div">
+            <div>会缓存片段aa</div>
+        </div>
+    <?php
+        $this->endCache();
+    }
+    ?>
+
+缓存(cache)===============================end
+
+bootstrap==================================start
+yii\bootstrap\ActiveForm  表单
+    $from = ActiveForm::begin([
+        'options' => [
+            'class' => 'new_user_form inline-input',
+            'id'=>'w0'
+        ],
+        'fieldConfig' => [
+            'template'=> '<div class="span12 field-box">{label}{input}</div>',
+        ]
+    ]);
+
+bootstrap==================================end
+
+嵌套布局=====================================start
+<?php $this->beginContent('@app/views/layouts/base.php'); ?>
+
+...child layout content here...
+
+<?php $this->endContent(); ?>
+
+嵌套布局=====================================end
+
+注册Meta元标签
+<?php
+$this->registerMetaTag(['name' => 'keywords', 'content' => 'yii, framework, php']);
+?>
+注意如果多次调用 yii\web\View::registerMetaTag() 方法， 它会注册多个元标签，注册时不会检查是否重复。
+为确保每种元标签只有一个，可在调用方法时指定键作为第二个参数， 例如，如下代码注册两次 "description" 元标签，但是只会渲染第二个。
+
+注册链接标签
+$this->registerLinkTag([
+    'title' => 'Live News for Yii',
+    'rel' => 'alternate',
+    'type' => 'application/rss+xml',
+    'href' => 'http://www.yiiframework.com/rss.xml/',
+]);
+上述代码会转换成
+<link title="Live News for Yii" rel="alternate" type="application/rss+xml" href="http://www.yiiframework.com/rss.xml/">
+
+
+视图事件==============================start
+
+yii\base\View 视图组件会在视图渲染过程中触发几个事件， 可以在内容发送给终端用户前，响应这些事件来添加内容到视图中或调整渲染结果。
+
+yii\base\View::EVENT_BEFORE_RENDER: 在控制器渲染文件开始时触发， 该事件可设置 yii\base\ViewEvent::isValid 为 false 取消视图渲染。
+yii\base\View::EVENT_AFTER_RENDER: 在布局中调用 yii\base\View::beginPage() 时触发， 该事件可获取yii\base\ViewEvent::output的渲染结果， 可修改该属性来修改渲染结果。
+yii\base\View::EVENT_BEGIN_PAGE: 在布局调用 yii\base\View::beginPage() 时触发；
+yii\base\View::EVENT_END_PAGE: 在布局调用 yii\base\View::endPage() 是触发；
+yii\web\View::EVENT_BEGIN_BODY: 在布局调用 yii\web\View::beginBody() 时触发；
+yii\web\View::EVENT_END_BODY: 在布局调用 yii\web\View::endBody() 时触发。
+
+例如，如下代码将当前日期添加到页面结尾处：
+\Yii::$app->view->on(View::EVENT_END_BODY, function () {
+    echo date('Y-m-d');
+});
+
+视图事件==============================end
+
