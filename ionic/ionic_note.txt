@@ -1,0 +1,69 @@
+ionic笔记
+
+Ionic2.0版本中，添加了对通用Windows平台的支持，所以也就对Windows Phone有了支持。同时也支持BlackBerry 10 App
+Ionic 官网地址
+    http://ionicframework.com/
+
+环境安装
+    1.nodejs
+    2.npm
+    3.安装
+      npm install -g ionic cordova
+    4.  ios 　
+            xcode 模拟器
+        android
+            android studio
+            genymotion
+    5.浏览器搭建技巧
+        ionic serve 启动浏览器运行项目
+        使浏览器呈现android页面
+            http://localhost:8100/?ionicplatform=android
+        使浏览器呈现ios页面
+        http://localhost:8100/?ionicplatform=ios
+
+创建一个模拟项目 ionicdemo1
+    1.使用1.0版本
+        ionic start myapp [template]
+        默认模版
+            tabs (Default)
+            sidemenu
+            maps
+            salesforce
+            blank
+    2.使用2.0版本
+        ionic start myapp [template] --v2
+        默认模版
+            tabs (Default)
+            sidemenu
+            blank
+        如果nodejs安装慢 可以使用nrm调整源
+    3.运行项目
+        ionic serve [options]
+        运行android
+            ionic run android
+        运行ios
+            ionic run ios
+    4.添加目标平台
+        ionic platform add [ios|android]
+
+
+
+
+文件结构
+    ionicdemo1
+        src  //项目文件加 以后的代码编写
+        hook //钩子
+        node_modules //node依赖
+        platforms //生成平台
+        plugins //cordova的一些插件
+        resource //图标
+        www //编译好的文件
+        config.xml //一些全局配置
+        gulpfile //自动化操作
+        ionic.config.json  //自定义配置文件
+
+
+
+
+Ionic声明周期
+    
