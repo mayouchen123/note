@@ -1,0 +1,11 @@
+nodejs_note笔记
+
+长期关注网站
+    nodejs.org
+    npmjs.org
+    github.com
+    stackoverflow.com
+
+推荐模块
+    分析html代码结构模块，可以轻松获取html内容 使用和jquery差不多
+    npm install cheerio
