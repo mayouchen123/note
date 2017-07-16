@@ -16,7 +16,7 @@
 | gulp-util | 在命令行输出的包 |
 | yargs | 命令行参数解析 |
 | del | 删除文件 |
-| gulp-sequence | 按照顺序执行指定任务 |
+| gulp-sequence | 按照顺序执行指定任务 任务调度 |
 | require-dir | 引入文件 |
 | mkdirp | 创建目录 |
 | output-file-sync | 创建文件,写入内容 |

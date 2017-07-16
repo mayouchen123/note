@@ -1,0 +1,105 @@
+
+1.体验前端实时可视化的开发工具
+    (1)liveStyle
+        官网:http://livestyle.io/
+        可以异步修改css.less.sass文件，实现浏览器与文件修改同步
+    (2)liveReload
+        需要通过node安装livereload
+            npm install -g livereload
+            也可以根据自己的需求编写更新脚本使用gulp和gulp-livereload
+            上github上搜索gulp-livereload less sass相关自动化工具
+            使用livereload 在你需要修改的项目目录下启动livereload
+    (3)Broswer-Sync
+        简介/区别
+            使用代理服务器启用tcp长链接监听文件变化，进行修改
+            Broswer-Sync和liveReload的区别可以对所有文件进行修改
+            liveReload是单项的数据流只能修改文件更新页面
+            Broswer-Sync和liveReload都支持gulp脚本
+            Broswer-Sync不需要装浏览器插件直依赖于nodejs插件
+            liveReload其实就是做了F5操作，整个页面的刷新
+            Broswer-Sync可以实现phone,ipad等手机，移动设备之间的同步，试图的同步和交互的同步
+
+        使用步骤
+            安装nodejs环境
+            安装browser-sync
+                npm install -g browser-sync
+            启动browser-sync
+                1.Static sites 静态站点
+                    cd 项目问目录->样式目录
+                    browser-sync start --server --files "css/*.css" #只监控css文件
+                    browser-sync start --server --files "**" #监控所有文件html/css/js/img 等等所有文件
+
+
+
+
+2.前端自动化工具
+    (1)yeoman
+        官网地址：http://yeoman.io/
+        自带了很多脚手架，和app目录原型结构
+        通过node安装
+            npm install -g yo
+        安装包
+            npm install generator-包名
+        通过模版创建
+            npm 包名 项目名
+        项目管理器地址
+            http://yeoman.io/generators/
+
+    (2)bower
+        官网地址：https://bower.io/
+        web的包，库管理工具
+        通过node安装
+            npm install -g bower
+        创建项目
+            在项目目录执行
+            bower install 包名
+            例:bower install jquery
+        bower提供多种方式安装
+            1.通过git短地址安装
+                jquery/jquery  #github项目名
+            bower install jquery/jquery #短语安装
+            2.github地址安装
+            bower install github地址
+            3.如果框架或组件，没有在github上--通过URL方式安装
+            bower install URL地址
+        bower两个配置文件
+            bower.json
+                生成bower.json文件
+                bower init #输入相关的提示内容，这里就会添加bower.json
+                如果想bower.json中添加devdependencies  #开发需要的组件库
+                    bower install 包名 --save-dev #--save-dev 就是将这个添加到bower.json中
+                如果想bower.json中添加dependencies    #生产环境需要的组件库
+                    bower install 报名 --save #--save 就是将这个包添加到bower.json的dependencies中
+            bowerrc
+                生成bowerrc文件及配置
+                vim .bowerrc
+                    {
+                        "directory":"bower_components",
+                        "proxy":"http://proxy.tencent.com:8080", #设置代理
+                        "https-proxy":"https://proxy.tencent.com:8080",#设置https代理
+                        "timeout":60000ms,#设置加载过时时间
+                    }
+
+    (3)grunt
+        官网地址：http://gruntjs.com/
+        中文官网：http://www.gruntjs.net/
+        通过node安装
+            npm install -g grunt-cli
+
+    (4)gulp
+        官网地址：http://gulpjs.com/
+        中文官网：http://www.gulpjs.com.cn/
+        gulp命令行(CLI)文档
+          参数标记
+          -v或--version会显示全局和项目本地所安装的gulp版本号
+          --require <module path>将会在执行之前require一个模块
+          --gulpfile <gulpfile path>手动指定一个gulpfile的路径，这在你有很多个gulpfile的时候很有用
+          --cwd <dir path>手动指定CWD。定义gulpfile查找的位置
+          -T或--tasks会显示所指定gulpfile的task依赖树
+          --tasks-simple会以纯文本的方式显示所载入的gulpfile中的task列表
+          --color强制gulp和gulp插件显示颜色，即便没有颜色插件支持
+          --no-color强制不显示颜色，即便检测到有颜色支持
+          --silent禁止所有的gulp日志
+
+        gulp API文档
+          gulp.src(globs[,options])

@@ -1,0 +1,69 @@
+
+版本管理工具nvm
+
+1.github官网
+    https://github.com/creationix/nvm/blob/master/README.markdown
+
+2.下载安装
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+    此时下载安装并没有激活nv，这一步会在家目录下创建.nvm目录
+
+3.激活nvm
+    source ~/.nvm/nvm.sh
+    注意：如果不把激活文件配置到环境变量那么每次重新打开终端都需要激活一次nv，下面配置环境变量
+        cd ~
+        vim .bash_profile
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            将上面两行添加进去
+        source ~/.bash_profile
+        可以echo $PATH看到配置的nvm路径
+
+4.激活以后，安装Node或io.js的最新版
+    nvm install node  #默认安装最新版
+    nvm install stable #安装最新稳定版node,但测试安装的是最新版
+    nvm install --lts #安装是最后最新的LTS版本，稳定版
+    nvm uninstall --lts #卸载稳定版
+    nvm use --lts #使用稳定版  
+    nvm ls-remote #查看node所有版本
+    nvm ls-remote --lts #查看node所有LTS版本
+    nvm run --lts #运行node稳定版本
+    nvm install -g 包名 #安装包名
+    nvm alias default 版本号 #设置默认node版本
+    nvm ls #查看当前安装列表
+    注意：如需安装指定版本的node使用 nvm install 版本号  nvm install 6.9.4
+    或
+    nvm install iojs
+
+5.安装完成，就可以在各种版本的node之间自由切换
+    #切换到node
+    nvm use node
+        #切换node版本nvm use 6.9.4
+        #查看当前node版本列表 nvm ls node
+    #切换到iojs
+    nvm use iojs
+
+6.需要注意的事，Node.js对ES6的支持，需要打开harmony参数,iojs不需要
+    node --harmony
+    #iojs不需要打开harmony
+    node
+    上面的命令执行后，就会进入REPL环境，该环境支持所有已经实现的ES6特性
+    使用下面的命令，可以查看Node.js所有已经实现的ES6特性
+    node --v8-options | grep harmony
+
+7.使用.nvmrc文件配置项目所使用的node版本
+    如果你的默认node版本(通过alias命令设置的)与项目版本不同，则可在项目根目录或其任意父级目录中创建.nvmrc文件
+    在文件中指定使用的node版本号，例如
+        cd 项目根目录
+        echo "版本号" > .nvmrc #添加.nvmrc文件 echo "6.9.4" > .nvmrc  echo "lts/*" > .nvmrc 默认LTS版本
+        nvm use #无需指定版本号，会自动使用 .nvmrc文件中配置的版本
+        node -v #查看node是否切换为对应的版本
+
+
+
+
+Babel转码器
+    Babel是一个广泛使用的ES6转码器，可以ES6代码转为ES5代码，从而在浏览器或其它环境执行。这意味着，你可以
+    用ES6方式编写程序，又不担心现有环境是否支持
+    安装
+        npm install -g babel
