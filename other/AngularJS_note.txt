@@ -1,0 +1,109 @@
+AngularJS_note
+
+概述
+    4大核心特性
+        MVC
+        模块化
+        指令系统
+        双向数据绑定
+
+前端开发环境
+    代码编辑工具
+        sublime
+        webstorm
+    断点调试工具
+        chrome插件AngularJS Batarang
+    版本管理工具
+        git
+    代码合并和混淆工具
+        grunt
+    依赖管理文具
+        bower
+    单元测试工具
+        karma   只是一款用来跑测试用例的runner 中文翻译 卡马儿
+            https://github.com/karma-runner/karma
+        jasmine 作用类似java里面的JUnit，提供了一套语法，用来编写测试用例   含义 茉莉花
+            https://github.com/jasmine/jasmine
+            jasmine四个核心概念：分组、用例、期望、匹配，分别对应jasmine的四种函数
+                describe(string,function)这个函数表示分组，也就是一组测试用例
+                it(string,function)这个函数表示测试用例
+                expect(expression)表示期望expression这个表达式具有某个值或则具有某种行为
+                to***(arg)这个函数表示匹配
+    集成测试工具
+        专门为AngularJS定制的测试工具--Protractor
+            Protractor是一款集成测试工具，专门为AngularJS应用而设计
+            Protractor基于WebDriverJS
+            原理：利用WebDriverJS，可以借助NodeJS直接调用浏览器(IE,FF,Chrome)的接口
+                https://github.com/angular/protractor
+                http://www.protractortest.org/
+            注意：Protractor是为AngularJS专门定制的工具，但是WebDriverJS是通用的
+    其它工具
+        轻量级Server--http-server
+
+
+
+
+代码
+    如何使用Controller
+        Controller使用过程中的注意点
+            不要试图去复用Controller,一个控制器一般只负责一小块试图
+            不要在Controller中操作DOM,这不是控制器的职责
+            不要在Controller里面做数据格式化,ng有很好用的表单控件
+            不要在Controller里面做数据过滤操作,ng有$filter服务
+            一般来说,Controller是不会互相调用的，控制器之间的交互会通过事件进行
+
+    如何复用Model
+    如何复用View
+    神奇的$scope
+        $scope是一个POJO(Plain Old JavaScript Object)
+        $scope提供了一些工具方法$watch()/$apply()
+        $scope是表达式的执行环境(或则叫作用域)
+        $scope是一个树型结构，与DOM标签平行
+        子$scope对象会继承父$scope上的属性和方法
+        每一个Angular应用只有一个根$scope对象(一般位于ng-app上)
+        $scope可以传播事件，类似DOM事件，可以向上也可以向下
+        $scope不仅是MVC的基础，也是后面实现双向数据绑定的基础
+        可以用angular.element($0).scope()进行基础
+
+    路由、模块、依赖注入
+        AngularJS的模块化实现
+        一个完整的项目结构是什么样
+        使用ngRoute进行试图之间的路由
+        一切都是从模块开始的
+        ng官方推荐的模块切分方式是什么
+        模块之间的依赖应该怎么做？--依赖注入
+
+    项目结构
+        BookStore
+            app
+                css
+                framework
+                imgs
+                js
+                    app.js 作为启动点的js
+                    controller.js
+                    directives.js
+                    filters.js
+                    services.js
+                tpls
+                index.html  应用的主html文件
+            node_modules
+            package.json
+
+
+
+
+双向数据绑定
+    在Angular网页应用中，数据绑定是数据模型(model)与视图(view)组件的自动同步。Angular的实现方式允许你把应用中的模型看成单一数据源。
+    而视图始终是数据模型的一种展现形式。当模型改变时，视图就能反映这种改变，反之亦然。
+    ngBind
+
+路由
+    使用第三方路由angular-ui-router 可以嵌套路由
+    https://ui-router.github.io/ng1/docs/0.3.1/index.html#/api/ui.router
+    
+
+指令
+    给指令一个独立作用域(isolate scope)
+    我们想要做的是能够把指令的作用域与外部的作用域隔离开来，然后映射外部的作用域到指令内部的作用域。
+    可以通过创建独立作用域(isolate scope)来达到这个目的。我们可以使用指令的scope来选项它:

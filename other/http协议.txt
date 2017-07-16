@@ -1,0 +1,168 @@
+HTTP协议
+
+HTTP协议的历史
+    IETF制定了HTTP协议的详细内容--规定了客户端浏览器和WEB服务器通信所必需的内容格式
+    RFC:Request For Comment 意见征求稿
+    HTTP/1.0： 1996年  RFC1945
+    HTTP/1.1： 1999年  RFC2616
+
+    三次握手  ->  发请求  -> 四次挥手
+
+    面试题：HTTP/1.1相比1.0有哪些改进？
+    (1)支持持久连接         不是永久连接
+       Connection: keep-alive
+    (2)支持虚拟主机
+       Host: www.baidu.com
+    (3)支持代理连接
+       Poxy: xxx
+
+
+Content-Type：头部
+    用于指定当前消息的主体中“内容类型”：
+    请求消息中可取值：
+        (1)text/plain：请求主体内容是普通文本，未经编码——有些服务器拒绝接收这样的数据（如PHP服务器）
+        (2)application/x-www-form-urlencoded：请求主体数据时经过编码后的表单数据(encodeURIComponent())
+        (3)multipart/form-data：请求主体数据包含文件上传
+    响应消息中可取值：
+    	(1)text/plain
+    	(2)text/html
+     	(3)text/css
+    	(4)application/javascript
+    	(5)application/xml
+     	(6)application/json
+    	(7)image/jpeg
+    	(8)image/png
+    	(9)audio/mpeg3
+    	(....)....   100+ MIME多种
+
+
+如何修改响应消息的头部
+    (1)修改Web服务器的配置文件，如httpd.conf
+ 	问题：会影响到当前服务器上所有的网站、有些情况下没有权限修改
+    (2)在HTML设置meta元标签
+        <meta http-equiv="Cache-Control" content="no-cache">
+        问题：修改的并非真正的响应头部，可能是无效；仅对HTML文档可用
+    (3)使用服务器端动态语言来修改，如PHP
+        header('Content-Type: image/jpeg')
+
+
+AJAX概述
+    AJAX：Asynchronous Javascript And XML，异步的JS和XML。2001，Google为了改进搜索的用户体验，提出了GoogleSugguest效果，正式提出了AJAX的概念。AJAX = HTML + CSS + JS + DOM + HTTP + XML，目标：在无刷新无提交的情况下，实现页面内容的局部更新——数据来自于服务器。
+    常见应用：实时数据获取(如股票走势图)、搜索建议、聊天室、SPA
+    AJAX应用依赖于浏览器底层提供的核心对象：
+    XMLHttpRequest：用于向Web服务器发起异步请求，并接收响应消息。
+    XMLHttpRequest对象的常用成员：
+    成员属性：
+        readyState: 0，就绪状态，描述XHR请求-响应过程进行到哪一步了，可取值为：
+            0 - UNSENT  表示请求尚未发送
+            1 - OPENED  表示XHR已经打开了到服务器的连接
+            2 - HEADERS_RECEIVED  表示XHR已经接收到了响应消息头部
+            3 - LOADING  表示XHR正在加载响应消息主体
+            4 - DONE 表示XHR已经加载完成响应主体
+        status：0，表示响应消息的状态码， readyState变为2才有值
+        statusText：""，表示响应消息的原因短句，readyState变为2才有值
+        responseText: ""，表示响应消息的主体数据，readyState变为3开始有值，变为4时值稳定下来
+
+    成员方法：
+        open(method, url, isAsync)  打开到服务器的连接
+        send( null/body )  发送请求消息
+        setRequestHeader()   设置请求消息头部
+        getResponseHeader()   得到响应消息头部
+
+    成员事件：
+        onreadystatechange：每次xhr.readyState属性的值发生改变都会触发该事件，监听此事件可以知道请求-响应进行到哪一步了
+
+    使用XHR发起异步请求步骤：
+        (1)创建XHR对象 —— 每个XHR只能发一个请求
+            var xhr = new XMLHttpRequest();
+        (2)绑定监听函数，处理XHR的每一次状态改变
+            xhr.onreadystatechange = function(){ }
+        (3)打开到Web服务器的连接
+            xhr.open('GET','9.php', true);
+        (4)发送请求消息主体
+            xhr.send(null);
+
+
+http状态码
+    1字开头    消息
+    2字开头    成功
+    3字开头    重定向
+    4字开头    请求错误
+    5、6子开头  服务器错误
+
+
+HTTP协议详解
+    HTTP请求(Request)消息:客户端发送服务器的消息
+        请求起始行(Starting)
+            语法
+                请求方法(Method)
+                    GET
+                    POST
+                    PUT 客户端想向服务器放置文件 一般浏览器都会拒绝
+                    DELETE  客服端想删除服务器上指定的文件 一般浏览器都会拒绝
+                    HEAD    客服端想获得指定资源的响应消息头部，而不要该资源本身
+                    TRACE
+                    CONNECT
+                    OPTIONS
+                空格
+                请求URI
+                空格
+                协议版本
+        请求消息头部(Headers)
+        CRLF
+        请求主体
+    HTTP响应(Response)消息:服务器返回给客户端的消息
+        响应起始行(Staring)
+        响应头部(Headers)
+        CRLF
+        响应主体
+
+
+通过HTTP协议进行网站的访问优化
+    (1)域名解析
+        尽可能减少域名解析次数——减少跨站外部资源的引用
+    (2)创建连接
+        努力减少连接创建次数——使用持久连接，避免重复连接
+    (3)发送请求
+        尽力减少请求次数——合理设置缓存时间、资源合并
+    (4)等待响应
+        提高服务器端运行速度——提高数据运算及查询速度
+    (5)接收响应
+        尽可能减小响应数据长度——缩小文件体积，启用压缩
+
+
+跨域请求
+    Cross Domain Request:从一个域名下的某个资源访问另一个域名下的某个资源。两个
+    域名不同，可能是"协议名不同"或"主机/IP不同"或端口号不同
+    浏览器允许跨域的情形：
+        IMG/LINK/SCRIPT/IFRAME等HTML标签
+    浏览器不允许跨域的情形：
+        浏览器默认禁止XHR跨域请求(服务器端其实不会禁止)--跨域访问可能导致外来的数据对
+        当前页面造成风险
+    如何解决浏览器的跨域请求限制？
+        1.修改服务端响应头部
+            header('Access-Control-Allow-Origin:http://地址');
+        2.使用JSONP方法
+            JSONP的思路
+            发起异步请求，不使用XHR！使用一个动态创建的SCRIPT标签代替XHR，<script async="true" src="跨域地址/x.php"></script>,
+            要求服务端必须返回一段JS片段，包含了服务器端数据的JS片段
+                doRespone({"ename":"Tom","age":20})
+            客户端特意提供了一个名为doRespon(data)的函数
+        3.jQuery中如何发起JSONP请求
+            (1)$.getJSON()的两种用法：
+                使用XHR发起异步请求--不能跨域
+                    $.getJSON('x.php',fn);
+                使用SCRIPT发起异步请求--可以跨域
+                    $.getJSON('跨域地址.php?callback=?',fn);
+            (2)$.ajax()的两种用法
+                使用XHR发起异步请求--不能跨域
+                    $.ajax({
+                        url:'x.php',
+                        success:fn
+                    })
+                使用SCRIPT发起异步请求--可以跨域
+                    $.ajax({
+                        url:'跨域地址/x.php',
+                        dataType:'jsonp',
+                        success:fn
+                    })
