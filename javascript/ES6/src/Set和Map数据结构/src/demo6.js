@@ -2,25 +2,25 @@
 {
   const map = new Map([
     ['name', 'peter'],
-    ['age', 20],
-  ]);
+    ['age', 20]
+  ])
 
   for (let key of map.keys()) {
-    console.log(key);
+    console.log(key)
   }
 
   for (let value of map.values()) {
-    console.log(value);
+    console.log(value)
   }
 
   for (let [key, value] of map.entries()) {
-    console.log(key, value);
+    console.log(key, value)
   }
 
-// 等同于使用map.entries()
+  // 等同于使用map.entries()
   for (let [key, value] of map) {
-    console.log(key, value);
+    console.log(key, value)
   }
 
-  console.log([...map.values()]);
+  console.log([...map.values()])
 }

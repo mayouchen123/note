@@ -1,0 +1,345 @@
+/*
+*web面试题总汇
+*author:peter
+*email:peter@xulukun.cn
+*/
+==========html、css==========
+
+1.visibility:hidden 与 display:block的区别
+    display：none；脱离文档流，所以不占据页面空间
+    visibility:hidden;没有脱离文档流。所以占页面控件。不现实内容而已
+
+==========html、css==========
+
+==========类型、值、变量==========
+
+1.	5/0的值是多少？
+	Infinity
+	被零整除在javascript并不会报错。返回Infinity或-Infinity,零除零没有意义
+
+2. NaN==NaN ？
+   false
+   javascript中的非数字值有一点特殊：它和任何值都不相等，包括自身
+
+3.	计算下面程序的值?
+	var x = .3 -.2;
+	var y = .2 - .1;
+	x == y //请问x==y的值 false 两值不相等
+	x == .1;// false .3 - .2 不等于.1
+	y == .1;// true .2 - .1 等于.1
+	javascript中的数字具有足够的精度，并可以极其近似于0.1。但事实是，数字不能精确表述的确带来了问题
+
+4. 	0/0 ?
+	NaN
+
+5.在ECMASript中，定义字符串双引号与单引号有什么区别
+    没有区别，完全相同
+
+6.引用类型与基本包装类型的区别？
+    引用类型与基本包装类型的区别就是对象的生存期
+    使用new操作符创建的引用类型的实例，在执行流离开当前作用域之前都一直保存在内存中。
+    自动创建的基本包装类型的对象，则只存在于一行代码的执行瞬间，然后立即销毁
+
+==========类型、值、变量==========
+
+==========表达式和运算符==========
+
+1.可以使用下面这段代码将所有对象属性复制至一个数组中
+	va,r o = {x:1, y:2, z:3}
+	var a = [],i=0;
+	for(a[i++] in o)
+
+2. 请问this输出是什么?
+	'use strict';
+	function aa(){
+	console.log(this);
+	}
+	aa();
+	输出undefined
+
+3.使用javascript实现是否支持严格模式
+	var hasStrictMode = (function(){ "use strict"; return this===undefined;})
+
+4.严格模式和非严格模式的区别？
+
+
+==========表达式和运算符==========
+
+==========对象==========
+
+1.假如遇到javascript不支持Object.crate()创建新对象，请封装一个函数，返回一个继承自原型对象p的新对象／
+	function inherit(p){
+		if (p == null) throw TypeError();／／p是一个对象，但不能是null
+		if(Object.create)
+			return Object.create(p);
+		var t = typeof p;
+		if(t !== "object" && t !== "function") throw TypeError();
+
+	}
+
+2.如何获得任意对象的类属性？请封装一个函数
+	function classof(o){
+		if(o === null) return 'Null';
+		if(o === undefined) return 'Undefined';
+		return Object.prototype.toString.call(o).slice(8,-1);
+	}
+
+3.鄙视:jQuery全局函数 vs ES的全局函数
+    ES的全局函数，存储在全局对象window中
+        不需要任何对象可直接调用
+    jQuery全局函数，存储在jQuery对象中
+        必须至少使用jQuery才能调用
+4.鄙视:$.each(list,callback) vs $('...').each(callback)
+    相同:都是对类数组对象中每个元素执行相同操作callback
+    不同:
+        1.调用方法
+            $.each可对任意类数组对象执行操作
+            $('...').each只能对$查询出的结果集合执行操作
+        2.存储位置
+            $.each:直接存在jQuery对象下
+            $('...').each:jQuery.fn中
+            jQuery.fn是所有查询结果对象的父对象！
+        3.称呼上
+            $.each:jQuery全局函数
+            $('...').each:称为jQuery对象方法
+
+5.考验arguments
+    function factorial(num){
+        if(num <= 1){
+            return 1;
+        }else{
+            return num * arguments.callee(num-1);
+        }
+    }
+
+6.判断属性是属于实例还是原型中
+    function hasPrototypeProperty(object,name){
+        return !object.hasOwnProperty(name) && (name in object);
+    }
+
+7.JS中包含6种错误
+    SyntaxError 语法错误
+    ReferenceError 引用错误
+    RangeError 范围错误
+    TypeError 类型错误
+
+    不常见的错误
+    EvalError
+    URIError
+
+8.JS语法不支持重载
+    JS不允许同时存在同名函数
+    在一个函数内，使用arguments接住所有传入函数的参数值，根据arguments的内容，判断执行不同的操作
+
+9.写一个数组indexOf方法兼容IE8
+//判断Array.prototype中的indexOf是否是一个函数
+if(typeof Array.prototype.indexOf!=="function"){
+	//向Array.prototype中添加indexOf函数
+	Array.prototype.indexOf=function(elem,fromi){
+		//this-> 将来调用indexOf方法的.前的任意数组
+		fromi=fromi||0;//如果fromi无效，就设置为0
+		//从fromi开始遍历当前数组
+		for(var i=fromi;i<this.length;i++){
+			//如果数组中当前元素等于elem
+			if(this[i]===elem) return i;//就返回i
+		}//循环结束，还未返回，就返回-1
+		return -1;
+	}
+}
+
+10.判断一个对象是不是数组类型
+    错误方法:tyoeof()--只能区分原始类型和function,无法区分内置对象类型
+    解决
+        1.判断原型对象：
+            var bool = father.isPrototypeOf(child);
+                判断father是不是child的父对象
+        2.判断构造函数
+            var bool = child instanceof 构造函数
+            判断child 是不是用指定构造函数创建出来的
+            instanceof:实例：用构造函数创建出一个子对象
+            实例化：用new调用构造函数创建一个对象
+        问题：前两个检查不仅检查直接父对象，而且还检查整个原型链
+        3.检查对象的class属性： 检查与圆形链无关
+            每个对象中都有一个内部属性class:记录了对象创建时的类型，一旦创建，不会更改
+            问题：class不允许.直接访问
+            解决:obj.toString() -> '[object Object]'
+            问题2:多少内置对象重写了toString方法
+                重写的toString方法已经无法返回class
+            解决：临时借用函数
+                函数.call(对象) -> 对象.函数()
+                Object.prototype.toString.call(obj1)
+        4.Array.isArray();
+
+11.鄙视：
+    区分call apply bind
+    call和apply：临时借用函数，并替换函数中的this
+        调用函数
+            参数：call：所有参数单独传入
+                apply:所有参数放入数组中集中传入
+    bind：创建函数，永久绑定函数中的this
+        创建函数
+12.函数安值传递参数面试题
+    function setName(obj){
+        obj.name = 'peter';
+        obj = new Object();
+        obj.name = 'Greg';
+    }
+    var person = new Object();
+    setName(person);
+    alert(person.name);//peter
+    //实际上，当在函数内部重写obj时，这个变量引用的就是一个局部对象了，而这个函数对象会在函数执行完毕后立即销毁
+
+13.垃圾收集
+    javascript具有自动垃圾收集机制
+    标记清除
+    引用计数
+
+14.递归
+    arguments.callee是一个指向正在执行的函数的指针，因此可以用它来实现对函数的递归调用
+    在严格模式，不能使用argument.callee如何创建递归
+    这种方式在严格模式和非严格模式都可以
+    function factorial(num){
+        if (num < 1) {
+            return 1;
+        }else {
+            return num * arguments.callee(num-1);
+        }
+    }
+    改
+    var factorial = (function f(num){
+        if (num < 1) {
+            return 1;
+        }else {
+            return num * f(num-1);
+        }
+    });
+
+
+15.考验函数掌握
+    var o = {
+        m: function () {
+            var self = this;
+            console.log(this === o ); //true , this 就是这个对象o
+            f();
+
+            function f() {
+                console.log(this === o ); // false this的值是全局对象(非严格模式下)或undefined(严格模式下)
+                console.log(self === o ); // true self 指外部函数的this值
+            }
+        }
+    }
+
+16.闭包
+    var scope = "global scope";
+    function checkscope() {
+        var scope = "local scope";
+        function f() { return scope}
+        return f();
+    }
+    checkscope();
+
+    改
+
+    var scope = "global scope";
+    function checkscope() {
+        var scope = "local scope";
+        function f() { return scope}
+        return f;
+    }
+    checkscope()();
+
+
+==========对象==========
+
+==========HTTP==========
+HTTP1.1/相比1.0有哪些改进？
+    1.支持持久链接
+        connection:keep-alive
+    2.支持虚拟主机
+        Host:www.baidu.com
+    3.支持代理链接
+        Poxy:xxx
+
+
+==========HTTP==========
+
+==========算法==========
+
+1.数组去重
+    var arr=["a","d","a","c","b","d","a"];
+    /*方法一: 遍历的方式*/
+    function repeat1(arr){
+        //遍历arr中每个元素
+        for(var i=0,result=[];i<arr.length;i++){
+         //遍历result中每个元素和arr中i位置元素比较
+            for(var j=0;j<result.length;j++){
+                //如果arr中i位置的元素等于result中j位置的元素,就退出循环
+                if(arr[i]==result[j]) break;
+            }
+            //如果j走到头，说明在result中没有遇到重复的元素，就将arr[i]放入result结尾
+            if(j==result.length)
+                result[result.length]=arr[i];
+        }
+        return result;
+    }
+    //用函数repeat1为数组arr去重复，将结果还保存回arr变量。
+    //arr=repeat1(arr);
+
+    /*方法二: 关联数组方式:*/
+    function repeat2(arr){
+        //遍历arr中每个元素
+        for(var i=0,hash=[],result=[];
+                i<arr.length;
+                i++){
+        //用arr[i]的元素作为key去result中查找是否包含——由hash算法完成，无需遍历
+            if(hash[arr[i]]===undefined){
+                hash[arr[i]]=true;//将arr[i]加入hash
+                //将arr[i]加入result
+                result[result.length]=arr[i];
+            }
+        }
+        return result;
+    }
+    //arr=repeat2(arr);
+    //console.log(String(arr));
+    //arr: ["a","d","c","b"]
+
+
+2.自定义比较器
+var arr=[12,2,23,123,3,1];
+//1. 定义比较器函数
+var compareASC=function(a,b){return a-b}
+var compareDESC=function(a,b){return -(a-b);}
+//2. 将比较器函数作为参数传入sort方法中
+arr.sort(compareASC);
+console.log(String(arr));
+
+
+function bubbleSort(arr,compare){
+    if(compare===undefined){
+        //原装比较器函数:
+            //将每个元素转为字符串再比较
+        compare=function(a,b){
+            return String(a)>String(b)?1:
+                         String(a)<String(b)?-1:0;
+        }
+    }
+    for(var r=1;r<arr.length;r++){
+        for(var i=0;i<arr.length-r;i++){
+            if(compare(arr[i],arr[i+1])>0){
+                arr[i]=[arr[i+1],arr[i+1]=arr[i]][0];
+            }
+        }
+    }
+}
+var compare=function(a,b){return a-b}
+//回调: callback
+    //将一个函数作为参数传入另一个函数中被反复调用
+//何时: 只要函数中缺少一段逻辑，就要定义回调函数参数。
+bubbleSort(arr,compare);
+console.log(String(arr));
+
+
+
+
+==========算法==========

@@ -1,18 +1,18 @@
-'use strict';
+'use strict'
 
 // Object.assign()方法有很多用处
 
 {
   // 为对象添加属性
   // 为对象添加方法
-  let Info = {};
+  let Info = {}
 
   Object.assign(Info, {
     name: 'default name',
-    say() { console.log(this.name)}
+    say () { console.log(this.name) }
   })
-  console.log(Info);
-  Info.say();
+  console.log(Info)
+  Info.say()
 }
 
 {
@@ -20,18 +20,18 @@
   let peterInfo = {
     name: 'peter'
   }
-  let newPeterInfo = Object.assign({}, peterInfo);
-  console.log(newPeterInfo);
+  let newPeterInfo = Object.assign({}, peterInfo)
+  console.log(newPeterInfo)
 }
 
 {
   // 合并多个对象
-  let obj1 = {name:'peter'};
-  let obj2 = {age:20};
-  let obj3 = {sex:'男'};
-  const merge = (target, ...sources) => Object.assign(target, ...sources);
-  let newObj = merge(obj1, obj2, obj3);
-  console.log(newObj);
+  let obj1 = {name: 'peter'}
+  let obj2 = {age: 20}
+  let obj3 = {sex: '男'}
+  const merge = (target, ...sources) => Object.assign(target, ...sources)
+  let newObj = merge(obj1, obj2, obj3)
+  console.log(newObj)
 }
 
 {
@@ -43,10 +43,9 @@
     }
   }
 
-  function processContent(options){
-    options = Object.assign({}, DEFAULTS, options);
-    console.log(options);
+  function processContent (options) {
+    options = Object.assign({}, DEFAULTS, options)
+    console.log(options)
   }
-  processContent();
-
+  processContent()
 }

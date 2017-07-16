@@ -31,7 +31,7 @@
   })
   peterInfo.say()
 
-  // 类的内部所有定义的方法, 都是不可美枚举的
+  // 类的内部所有定义的方法, 都是不可枚举的
   console.log(Reflect.ownKeys(peterInfo))
 }
 

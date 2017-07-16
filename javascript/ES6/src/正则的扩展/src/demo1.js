@@ -1,16 +1,14 @@
-'use strict';
+'use strict'
 
 {
-  let test = new RegExp('fff', 'i');
-  console.log(test);
+  let test = new RegExp('fff', 'i')
+  console.log(test)
 
-  let test1 = new RegExp(/fff/i);
-  console.log(test1);
+  let test1 = new RegExp(/fff/i)
+  console.log(test1)
 
-  let test2 = new RegExp(/fff/, 'i');
-  console.log(test2);
+  let test2 = new RegExp(/fff/, 'i')
+  console.log(test2)
 }
 
-{
-  console.log(Object.keys(RegExp.prototype));
-}
+console.log(Object.keys(RegExp.prototype))

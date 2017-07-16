@@ -18,3 +18,5 @@
   }
   console.log(Foo.classMethod())
 }
+
+// Class的静态属性和实例属性
