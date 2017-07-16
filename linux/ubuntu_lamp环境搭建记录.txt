@@ -1,0 +1,19 @@
+apache安装步骤
+1.下载http包
+2.解压http包，进入到包中
+3. 配置安装文件
+./configure --prefix=/usr/local/apache2
+4.make
+5.make install
+6.vim httpd.conf
+ServerName 127.0.0.1
+
+php安装步骤
+1.解压进入的php包
+2.配置安装文件
+./configure --prefix=/usr/local/php5 --with-apxs2=/usr/local/apache2/bin/apxs --with-mysql
+3.看报错依赖信息
+提示缺少依赖libxml2
+sudo apt-get install libxml2-dev
+4.再次执行配置安装文件
+5.make && make install
