@@ -1,0 +1,345 @@
+HTML5新特性
+
+1.表单2.0--新input type
+    <input type='text'/>
+    HTML4已有的input type:
+        text password radio checkbox hidden file submit reset button image
+    HTML5新增的input type
+        email : 在表单提交时提供了格式验证功能，要求@左右各有一个字符即可，错误信息可以定制，但外观无法定制(窗口)
+        number : 呈现一个数字输入框，在提交时会验证数字格式，使用min,max,step指定最小值，最大值，步长
+        url : 提供了URL验证输入框，只要满足字母+冒号即可
+        tel : 提供了电话号码输入框，在手机浏览器中会弹出数字模拟键盘
+        search : 显示一个搜索框，在手机浏览器中会在模拟键盘右下角显示"搜索"按钮
+        range : 显示一个滑块组件(数值选择组件),使用min,max,step指定最小值，最大值，步长
+        color : 显示一个颜色选择器--浏览器使用操作系统自带的颜色选择框
+        date : 显示一个日期选择器--FF未实现
+        month : 显示一个月份选择器--FF未实现
+        week : 显示一个选择器--FF未实现
+
+2.HTML5提供的新表单元素--仅用于数据展示，不能提交
+    datalist : 数据表
+    progress : 进度条
+    meter : 刻度条、度量衡
+    output : 输出
+
+3.表单2.0--表单元素的新属性
+    HTML4表单元素的属性：
+        id style title class name value type checked selected disabled
+    HTML5中表单元素的新属性
+        placeholder : 占位符 用于在输入框中显示提示性文字 与value没有任何关系
+        autofocus : 自动获得焦点 指定当前元素获得输入焦点
+        autocomplete : 是否启用自动补全功能
+        multiple : 多个/多项 用于指定<input type="fil／email"可以有多个输入项，使用英文逗号分隔
+        form : 表单 用于指定当前元素(放在表单外部)从哪个表单
+
+        下面的是与输入验证相关属性--难点
+        required : 必填 指定当前输入域内容不能为空
+        minlength : 最小长度 限定当前输入域最少个数--不是H5标准属性
+        maxlength : 最大长度 限定当前输入域中字符最大个数
+        min : 最小值 限定当前数字输入域中数值最小值
+        max : 最大值 限定当前输入输入域中数值最大值
+        pattern : (正则)样式 限定当前输入域中必须输入符合指定正则表达式的值
+
+4.使用HTML5新特性如何自定义错误提示信息--难点&一般重要
+    HTML5为所有的表单元素添加了一个JS属性:
+    input.validity(有效性):{
+        valid : true  //当前输入是否有效
+        badInput : false    //输入无效 如number框输入abc
+        patternMismatch : false //正则表达式验证失败
+        rangeOverflow : false   //输入值超过max的限定
+        rangeUnderflow : false  //输入值小于min的限定
+        tooLong : false //输入的字符数超过maxlength
+        tooShort : false //输入的字符数小于minlength
+        stepMismatch : false //输入的数字不符合step限制
+        typeMismatch : false //输入的值不符合email url 验证
+        valueMissing : false //未输入值，违反required要求
+        customError : false //是否存在自定义错误
+    }
+    上述属性址的特性：
+        只要有一个验证方面错误，某个属性就为ture，valid就为false
+        只要没有任何验证错误，所有的属性都为false,valid才能为true
+        上述的每一个错误在浏览器内部都有一个预定义的错误提示消，优先级高于浏览器预定义错误
+        所有的错误消息中，只要存在"自定义的错误消息"，浏览器只显示自定义的错误消息
+        设置自定义的错误方法
+            input.setCustomValidity('错误消息')
+                input.validity.customError:true
+        取消自定义错误方法
+            input.setCustomValidity('')
+
+5.HTML5新特性--视频播放
+    H5提供了video标签默认是一个300*150的inline-block
+    <video src=""></video>
+    使用video元素至少要提供两种视频格式的文件：OGG和MP4
+        -OGG:包含Theora视频和Vorbis音频解码器
+        -MP4:采用H.264视频和ACC音频解码器
+        -WebM:采用VP8视频和Ogg Vorbis音频解码器
+        推荐使用OGG和MP4两种一起使用
+    如果遇到很老的浏览器不能解码 按照以下方法写
+        <video>
+            <source src=""/>
+            <source src=""/>
+            <source src=""/>
+        </video>
+
+    video标签/对象常用属性
+        autoplay:false //是否自动播放
+        muted:false //是否静音
+        volume:1 //视频音量(0~1)之间
+        controls:fasle //是否显示播放控件
+        currentTime:3.2 934 //当前播放到那一秒
+        duratio:60.325 //影片的总时长
+        loop:false //是否循环播放
+        paused:false //当前是否处于暂停状态
+        playbackRate:1 //播放速率 默认1 可以是0.x 也可以是2、3
+        poster:"" //播放第一帧之前 要显示的电影海波
+    video标签/对象常用方法
+        play() //让视频开始播放
+        pause() //暂停
+    video标签/对象常用事件
+
+6.HTML5新特性--音频播放
+    有controls属性则隐藏 300*30的inline-block
+    audio标签/对象常用属性
+        autoplay:false //是否自动播放
+        muted:false //是否静音
+        volume:1 //视频音量(0~1)之间
+        controls:fasle //是否显示播放控件
+        currentTime:3.2 934 //当前播放到那一秒
+        duratio:60.325 //影片的总时长
+        loop:false //是否循环播放
+        paused:false //当前是否处于暂停状态
+        playbackRate:1 //播放速率 默认1 可以是0.x 也可以是2、3
+        poster:"" //播放第一帧之前 要显示的电影海波
+    audio标签/对象常用方法
+        play() //让视频开始播放
+        pause() //暂停
+    audio标签/对象常用事件
+
+    说明:
+        iOS中Safar默认不支持audio标签
+
+7.WEB领域可以使用的绘图技术
+    WebGL--强大，早已出现，不是HTML标准
+    SVG--早已出现，纳入HTML5标准
+    Canvas--最近，是HTML5标准
+    网页绘图可以实现的功能：
+        1.实时走势图
+        2.统计图
+        3.在线画图板
+        4.地图
+        5.游戏
+
+    (1)HTML5新特性--Canvas绘图技术
+        Canvas:画布，使用画笔可以在画布画，canvas是行内块元素，300*150
+        注意：Canvas的宽和高不能使用CSS修饰，必须使用标签属性width和height
+        <canvas id="c">
+            您的浏览器不支持canvas
+        </canvase>
+
+        //Canvas绘图技术属于JS绘图技术
+        var ctx = c9.getContext('2d');//获取画布上的画笔--绘图上下文对象
+        绘图上下文对象常用的属性：
+            fileStyle = color; //填充样式
+            strokeStyle = color; //轮廓/描边样式
+            font:'10px sans-serif'; //字体
+            textAlign//文本对齐
+            textBaseline//文本基线
+            globalAlpha = transparencyValue; //透明0~1
+            lineWidth = value; //线条宽度
+            lineCap = type; //设置线条末端样式butt,round,square
+            lineJoin = type; //设置线条与线条间接合处的样式
+            setLineDash(segments); //设置当前虚线样式的起始偏移量
+            shadowColor = float; //阴影颜色
+            shadowBlur = float; //阴影模糊半径
+            shadowOffsetX = float  //阴影水平偏移量
+            shadowOffsetY = float
+
+
+        绘图上下文对象常用的方法：
+            绘制矩形
+                绘制一个填充矩形
+                    fillRect(x, y, width, height);
+                绘制一个矩形的边框
+                    strokeRect(x, y, width, height);
+                清除指定矩形区域，让清除部分完全透明
+                    clearRect(x, y, width, height);
+            绘制文本
+                fillText(text, x, y[, maxWidth]);
+                    在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的
+                strokeText(text, x, y [, maxWidth]);
+                    在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的
+
+                有样式的文本
+                    font = value;
+                        默认字体10px sansserif;
+                    textAlign = value;
+                        文本对齐选项。start,end,left,right or center。默认start
+                    textBaseline = value;
+                        基线对齐选项。top,hanging,middle,alphabetic,ideographic,bottom,默认值alphabetic
+                    direction = value;
+                        文本方向。ltr,rtl,inherit。默认值inherit
+
+
+            绘制路径
+                新建一条路径，生成之后，图形绘制命令被指向到路径上生成路径
+                    beginPath();
+                闭合路径之后图形绘制命令又重新指向上下文中
+                    closePath();
+                通过线条来绘制图形轮廓
+                    stroke();
+                通过填充路径的内容区域生成实心的图形
+                    fill();
+
+                移动笔触
+                    将笔触移动到指定的坐标x以及y上
+                        moveTo(x, y);
+                    绘制直线，需要用到的方法
+                        lineTo(x, y);
+                圆弧
+                    画一个以(x, y)为圆心的以radius为半径的圆弧(圆),从startAngle开始到endAngle结束，按照anticlockwise给定的方向(默认为顺时针)来生成
+                        arc(x, y, radius, startAngle, endAngle, anticlockwise);
+                        该方法有六个参数：x,y为绘制圆弧所在圆上的圆心坐标。radius为半径。startAngle以及endAngle参数用弧度定义了开始以及结束的弧度。
+                        这些都是以x轴为基准。参数anticlockwise 为一个布尔值。为true时，是逆时针方向，否则顺时针方向。
+                        arc()函数中的角度单位是弧度，不是度数。角度与弧度的js表达式:radians=(Math.PI/180)*degrees。
+            图案样式 Patterns
+                createPattern(image, type);
+                    该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。
+                    Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y 和 no-repeat。
+
+
+            使用图片
+                canvas更有意思的一项特性就是图像操作能力。可以用于动态的图像合成或者作为图形的背景，以及游戏界面（Sprites）等等。
+                浏览器支持的任意格式的外部图片都可以使用，比如PNG、GIF或者JPEG。 你甚至可以将同一个页面中其他canvas元素生成的图片作为图片源。
+
+                获得需要绘制的图片
+                    HTMLImageElement
+                        这些图片是由Image()构造函数出来，或则任何的<img>元素
+                    HTMLVideoElement
+                        用一个HTML的<vidoe>元素作为你的图片源,可以从视频中抓去当前帧作为一个图像
+                    HTMLCanvasElement
+                        可以使用另一个<canvas>,元素作为你的图片源
+                    ImageBitmap
+                        这是一个高性能的位图，可以低延迟的绘制，
+
+
+            绘制图片
+                drawImage(image, x, y);
+                    其中image是image或则canvas对象，x和y是其在目标canvas里的起始坐标
+
+
+        使用Canvas绘图上下文绘制矩形
+            注意：矩形的定位点在左上角
+            ctx.fillRect(x,y,w.h); //填充一个矩形
+            ctx.strokeRect(x,y,w,h); //描边一个矩形
+            ctx.clearRect(x,y,w,h);
+
+        使用Canvas绘图上下文绘制文本
+            注意：字符串的定位点在文本基线的最左端
+            ctx.textBaseline = 'alphabetic'; //文本基线 top/botton/middle/alphabetic
+            ctx.font='10px sans-serif'; //字体 字体大小
+            ctx.fillText(txt,x,y); //填充文字
+            ctx.strokeText(txt,x,y); //描边文字
+            ctx.measureText('徐路坤').width; //measureText 测量指定文字的宽度
+
+        为图形添加渐变色样式
+            创建线性渐变
+            var c1Canvas = c1.getContext('2d');
+            var lingG = c1Canvas.createLinearGradient(100,100,200,200);
+            lingG.addColorStop(0,'#ff0000');
+            lingG.addColorStop(0.5,'#ffff00');
+            lingG.addColorStop(1,'#00ffff');
+            c1Canvas.strokeStyle=lingG;
+            c1Canvas.strokeRect(100,100,100,100);
+
+        使用Canvas绘制路径(path)
+            路径：类似于PS中的钢笔工具，指定多个锚点，绘制任意形状的线路--路径本身不可见，有三个用途：
+                对路径进行描边:ctx.stroke();
+                对路径进行填充:ctx.fill();
+                使用路径进行裁剪:ctx.clip();
+            创建锚点的相关方法：
+                ctx.beginPath(); //开始新路径
+                ctx.closePath(); //闭合路径
+                ctx.moveTo(x,y); //移动到某个点
+                ctx.lineTo(x,y); //从上一个到指定点绘直线路径
+                ctx.arc(x,y,r); //绘制拱形(圆形的一部分)路径
+                ctx.ellipse(..); //绘制拱形(椭圆的一部分)路径
+                ctx.bezierCurveTo(); //绘制贝塞尔曲线(任意线条)
+                案例：
+                c1Canvas.beginPath();
+                c1Canvas.moveTo(10,10);
+                c1Canvas.lineTo(490,490);
+                c1Canvas.lineTo(490,10);
+                c1Canvas.stroke();
+                c1Canvas.fillStyle='#fff';
+                c1Canvas.fill();
+
+        使用Canvas绘制图像
+            提示：图像的定位点在自身的左上角
+            ctx.drawImage(img,x,y); //使用默认的宽高绘制图像
+            ctx.drawImage(img,x,y,w,h); //w,h使用指定的宽高绘制图像
+            绘制图像需注意:
+            var img = new Image();
+            img.src='x.png';  //浏览器会开始向服务器发起HTTP请求
+            //ctx.drawImage();
+            img.onload = function(){ //图片加载完再画
+                ctx.drawImage(img,x,y);
+            }
+
+        使用Canvas绘制图像/图形时旋转问题--抽象
+            注意：
+                旋转的是画笔(绘图上下文)而不是画布
+                一旦画笔旋转一定角度，它绘制的所有内容都是旋转后的
+                旋转的角度有累加效应
+                旋转的轴点永远是画布的零点(0,0)
+            ctx.rotate(弧度);
+            ctx.tranlage(x,y);  //把画布的零点平移 相当于修改画布的零点(0,0) 一旦平移，所有点的坐标值都要改变
+            ctx.save(); //保存当前绘图对象的所有状态
+            ctx.restor(); //恢复绘图对象上一次保存的所有状态
+    (2)第三方提供的绘制Canvas图表的工具库
+        提示：第三方可以简化原生Canvas绘图的代码编写
+        (1)Chart.js 开源免费，提供了8种图表
+        (2)EChart 百度提供的开源免费图表工具
+        (3)FreeChart 开源免费
+        (4)FusionCharts 收费的，提供了90+种图表
+    (3)第三方绘图工具--Chart.js的使用
+        (1)查看官网介绍
+            http://www.chartjs.org/
+            Simple yet flexible JavaScript charting for designers & developers
+            开源
+            8种图表
+            基于H5的Canvas
+            支持响应式
+        (2)查看示例代码
+        (3)文档API demo
+    (4)Canvas属于JS技术，标签只有一个，其它图形图像都是JS绘制的，不是标签--DOM树没有对应的元素对象！
+        --无法直接为每个图形/图像绑定事件监听函数！
+
+
+
+
+8.SVG绘图技术概述
+    Scalable Vector Graphic : 可缩放的矢量图
+    SVG
+        不依赖分辨率
+        每个图形都是标签
+        容易添加事件处理
+        最适合带有大型渲染区域的应用程序(例如百度地图)
+        不适合游戏
+    Canvas
+        依赖分辨率
+        每个图形不是标签
+        不易绑定事件处理
+        能够以"png"或"jpg"格式保存结果图像
+        最适合图像密集型的游戏
+
+    SVG技术2000年左右就存在的，远早于H5标准，被HTML5纳入为标准标签，SVG图形的使用有两种方式
+    (1)HTML5之前
+        把SVG标签书写在.svg文件中(本质是一个XML文件)，HTML文件中加以引用
+    (2)HTML5之后
+        可以直接在HTML文件中使用SVG相关的标签
+
+
+
+
+9.第三方绘图工具库的使用--two.js
+    (2)官网
