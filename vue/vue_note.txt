@@ -1,0 +1,41 @@
+vue_note
+
+vue.js的特点
+    数据渲染/数据同步
+    组件化/模块化
+    其他功能:路由,ajax,数据流
+
+vue.js学习资源
+    vuejs中文官网:http://cn.vuejs.org/
+    vuejs源码:https://github.com/vuejs/vue
+    vuejs官方工具:https://github.com/vuejs/
+    vuejs官方论坛:https://forum.vuejs.org/
+
+
+基本概念
+    全局api
+    实例选项
+    实例属性/方法
+    指令
+    内置组件
+
+
+总结
+    单文件组件
+    文本渲染:v-htlm, {{}}, v-text
+    列表渲染:数组, 对象
+    列表数据的同步更新
+
+vue标签属性
+    v-bind 动态绑定标签属性
+    v-bind可简写为:
+    使用v-bind绑定class和内联样式
+    使用v-if, v-show, v-else进行条件渲染
+
+
+安装vue-cli
+    npm install vue-cli -g
+    vue init webpack my-project //初始化项目
+    npm install //安装项目需求
+    npm run dev //在localhost启动测试服务器
+    npm run build //生成上线目录(部署)
