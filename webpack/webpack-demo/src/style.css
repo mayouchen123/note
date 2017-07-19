@@ -1,0 +1,7 @@
+body {
+  background-color: #abcdef;
+}
+.hello {
+  color: red;
+  background: url('./xiaoxin.gif')
+}
