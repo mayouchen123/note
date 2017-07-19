@@ -1,0 +1,11 @@
+{
+  "name": "yarn-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "pointline <peter@xulukun.cn>",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^3.3.0",
+    "yargs": "^6.6.0"
+  }
+}
