@@ -20,3 +20,4 @@
 | require-dir | 引入文件 |
 | mkdirp | 创建目录 |
 | output-file-sync | 创建文件,写入内容 |
+| syncy | 同步文件 |
