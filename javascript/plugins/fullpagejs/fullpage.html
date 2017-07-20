@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>fullpageJS</title>
+    <link href="//cdn.bootcss.com/fullPage.js/2.9.2/jquery.fullPage.css" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <ul id="myMenu">
+            <li data-menuanchor="firstPage" class="active"><a href="#page1">First section</a></li>
+            <li data-menuanchor="secondPage"><a href="#page2">Second section</a></li>
+            <li data-menuanchor="thirdPage"><a href="#page3">Third section</a></li>
+            <li data-menuanchor="fourthPage"><a href="#page4">Fourth section</a></li>
+        </ul>
+    </div>
+
+    <div id="fullpage">
+        <div class="section">这是第一屏</div>
+        <div class="section">
+            <div class="slide"> Slide 1 </div>
+            <div class="slide"> Slide 2 </div>
+            <div class="slide"> Slide 3 </div>
+            <div class="slide"> Slide 4 </div>
+        </div>
+        <div class="section">这是第三屏</div>
+        <div class="section">这是第四屏</div>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/fullPage.js/2.9.2/jquery.fullPage.min.js"></script>
+    <script>
+        $(function(){
+            $('#fullpage').fullpage({
+                menu: '#myMenu',
+                sectionsColor:['green','orange','gray','red'],//设置每一屏section的background-color颜色
+//                controlArrows:false, //取消slide的左右箭头
+//                verticalCentered:false, //设置内容默认居中 默认true
+//                scrollingSpeed:2000,//滚动页面的速度
+                anchors:['page1','page2','page3','page4'],
+                navigation:true,
+            });
+        })
+
+    </script>
+</body>
+</html>

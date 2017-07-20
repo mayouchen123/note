@@ -1,0 +1,115 @@
+jquery fullpate.js
+
+官方地址：
+https://github.com/alvarotrigo/fullPage.js
+最新版本V2.9.2
+
+第一步需要引入jquery.fullpate.css文件
+第二步需要引入jquery.js文件
+第三步可选引入jquery.easing.js文件 支持更多的效果
+第四步需要引入jquery.fullpage.js
+
+基本页面结构
+    <div id="fullpage">
+        <div class="section">Some section1</div>
+        <div class="section">Some section2</div>
+        <div class="section">Some section3</div>
+        <div class="section active">Some section4</div>  //此处设置active类 可以在让页面刚进来就显示此页面
+    </div>
+
+加幻灯片效果
+    <div class="section">
+        <div class="slide"> Slide 1 </div>
+        <div class="slide"> Slide 2 </div>
+        <div class="slide"> Slide 3 </div>
+        <div class="slide"> Slide 4 </div>
+    </div>
+
+调用fullpage
+    $(function(){
+        $('#fullpage').fullpage(
+        { //配置项
+            sectionsColor:['green','orange','gray','red'],//设置每一屏的background-color颜色
+            controlArrows:true, //定义是否通过箭头来控制slide幻灯片，默认为tru，设置为false时则幻灯片左右两侧的箭头就会消失
+            verticalCentered:true, //每一页的内容是否垂直居中，默认为true
+            resize:true, //字体是否随着窗口缩放而缩放，默认为false
+            scrollingSpeed:700, //滚动速度，单位为毫秒，默认为700
+            anchors:定义锚链接，默认值为[]，有了锚链接，用户就可以快速打开定位到某一页面
+                    注意定义锚链接的时候，值不要和页面中任意的id或name相同，尤其是在IE浏览器下，而且定义时不需要加#
+            lockAnchors:true, //是否锁定锚链接，默认为false
+            easing: //定义页面section滚动的动画方式，默认为easeInOutCubic,如果修改此项，需要引入jquery.easings插件，或则jquery ui
+            css3:true, //是否使用css3 transforms来实现滚动效果，默认为true，这个配置项可以提高支持css3的浏览器
+            loopTop:false, //滚动到最顶部后是否连续滚动到底部，默认为false
+            loopBottom:false,//滚动到最底部后是否连续滚动回顶部，默认为false
+            loopHorizontal:true, //横向slider幻灯片是否循环滚动，默认为true
+            autoScrolling:true //是否使用插件的滚动方式，默认为true,如果选择false,则会出现浏览器自带的滚动条，将不会按页滚动
+            scrollBar:false //是否包含滚动条，默认为false,如果设置为true,则浏览器自带的滚动条出现,页面滚动时还是按页滚动，但是滚动条的默认行为也有效
+            paddingTop/paddingBottom: //设置每一个section顶部和底部的padding，默认0。一般如果我们需要设置一个固定在顶部或者底部的菜单、导航、元素等
+            fixedElements: //固定的元素，默认为nul，需要配置一个jquery选择器，在页面滚动的时候,fixedElements设置的元素固定不动
+            keyboardScrolling: //是否可以使用键盘方向键导航，默认为true
+            touchSensitivity: //在移动设备中滑动页面的敏感性，默认为5，是按百分比来衡量，最高为100，越大则越难滑动
+            continuousVertical: //是否循环滚动，默认为false,如果设置了true,则页面会循环滚动
+            animateAnchor: //锚链接是否可以控制滚动动画，默认为true,如果设置为fals，则通过锚链接定位到某个页面不会有动画效果
+            recordHistory: //是否记录历史，默认为true,可以记录页面滚动的历史
+            menu: //绑定菜单，设置的相关属性与anchors的值对应后，菜单可以控制滚动，默认为false,可以设置为菜单的jquery选择器
+            navigation: //是否显示导航，默认为fals，如果设置为true,会显示小圆点，作为导航
+            navigationPosition: //导航小圆点的位置，可以设置为left或则right
+            navigationTooltips: //导航小圆点的tooltips设置，默认为[],注意按照顺序设置
+            showActiveTooltip: //是否显示当前页面的导航的tooltip信息，默认为false
+            slidesNavigation: //是否显示横向幻灯片的导航，默认为false
+            slidesNavPosition: //横向幻灯片导航的位置，默认为bottom,可以设置top
+            scrollOverflow: //内容超过满屏后是否显示滚动，默认为fals。如果设置为true，则显示滚动条，如果要滚动查看内容，还需要jquery.slimscroll插件的配合
+                            slimscroll插件主要用于模拟传统的浏览器滚动条
+            sectionSelector: //section的选择器，默认为section
+            slideSelector: //slide的选择器，默认为.slide
+
+
+        }
+        );
+    })
+
+
+调用方法
+    $.fn.fullpage.xxxx();    调用方式
+
+    moveSectionUp(); //向上滚动一页
+    moveSectionDown; //向下滚动一页
+    moveTo(section,slide); //滚动到第几页，第几个幻灯片，页面从1开始，幻灯片从0开始
+    silentMoveTo(section,slide); //滚动到第几页和moveTo一样，但是没有动画效果
+    moveSlideRight(); //幻灯片向右滚动
+    moveSlideLeft(); //幻灯片向左滚动
+    setAutoScrolling(boolean); //动态设置autoScrolling
+    setLockAnchors(boolean); //动态设置lockAnchors
+    setRecordHistory(boolean); //动态设置recordHistory
+    setScrollingSpeed(milliseconds); //动态设置scrollingSpeed
+    setAllowScrolling(boolean,[directions]);//添加或删除鼠标滚轮/滑动控制，第一个参数true为启用,false为禁用，后面的参数为方向，
+                                            取值包含all,up,down,left,right,可以使用多个，逗号分隔
+    destroy(type);//销毁fullpage特效，type可以不写，或者使用all
+    reBuild();//重新更新页面和尺寸，用于通过ajax请求后改变了页面结构之后，重建效果
+
+lazy loading
+    <img data-src='image.png'>
+    <video>
+        <source data-src='video.mp4'>
+    </video>
+
+回调函数
+    afterLoad(anchorLink,index) //滚动到某一section,且滚动结束后，会触发一次此回调函数，函数接收anchorLink和index两个参数,
+                                anchorLink是锚点的名称,index是序号，从1开始 可以根据anchorLink和index参数值的判断，触发相应的事件
+    onLeave(index,nextIndex,direction) //在我们离开一个section时，会触发一次此函数，接收index、nextIndex和direction
+                                        index时离开的页面序号，从1开始
+                                        nextIndex是滚动到的目标页面序号，从1开始
+                                        direction判断往上滚动还是往下滚动，值是up或down
+                                        通过return fals，可以取消滚动
+    afterRender() //页面结构生成后的回调函数，或则说页面初始化完成后的回调函数
+    afterResize() //浏览器窗口尺寸发生改变的回调函数
+    afterSlideLoad(anchorLink,index,slideAnchor,slideIndex) //滚动到某一幻灯片后的回调函数，与afterLoad类似
+    onSlideLeave(anchorLink,index,slideIndex,direction,nextSlideIndex)  //在我们离开一个slide时,会触发一次此回调函数，与onLeave类似
+
+
+
+
+
+
+
+
